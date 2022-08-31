@@ -1,14 +1,19 @@
 package ba.unsa.etf.rpr.DAO;
 
+import ba.unsa.etf.rpr.Models.User;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserDAO {
     private static UserDAO instance = null;
     private Connection connection;
-    private PreparedStatement preparedStatement;
+    private PreparedStatement preparedStatement, getUserByUsernameAndPasswordQuery,
+            getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser;
 
     private UserDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -20,6 +25,19 @@ public class UserDAO {
             createDatabase();
             preparedStatement = connection.prepareStatement("Select * from user");
         }
+
+        getUserByUsernameAndPasswordQuery =
+                connection.prepareStatement("Select * from User Where username = ? and password = ?");
+        getUserByUsernameQuery =
+                connection.prepareStatement("Select * from User Where username = ?");
+
+
+        insertNewUserQuery =
+                connection.prepareStatement("INSERT INTO User VALUES ((SELECT MAX(u.id) FROM user u)+1,?,?,?,?,?,?,?)");
+        insertAllergyForUser =
+                connection.prepareStatement("INSERT INTO Allergies VALUES ((SELECT MAX(a.id) FROM Allergies a)+1,?,?)");
+        getIdForNewUser =
+                connection.prepareStatement("SELECT MAX(u.id)+1 FROM user u");
     }
 
     public static void removeInstance() throws SQLException {
@@ -56,5 +74,74 @@ public class UserDAO {
             instance = new UserDAO();
         }
         return instance;
+    }
+
+    public Boolean checkIfUserExists(String username, String password) {
+        try {
+            getUserByUsernameAndPasswordQuery.setString(1, username);
+            getUserByUsernameAndPasswordQuery.setString(2, password);
+            ResultSet resultSet = getUserByUsernameAndPasswordQuery.executeQuery();
+
+            List<User> listOfUsers = new ArrayList<>();
+            while (resultSet.next()){
+                listOfUsers.add(new User(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5), resultSet.getString(6),
+                        resultSet.getString(7), resultSet.getString(8), new ArrayList<>()));
+            }
+
+            if (listOfUsers.size()==1){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Boolean checkForSameUsername(String username) {
+        try {
+            getUserByUsernameQuery.setString(1, username);
+            ResultSet resultSet = getUserByUsernameQuery.executeQuery();
+
+            List<User> listOfUsers = new ArrayList<>();
+            while (resultSet.next()){
+                listOfUsers.add(new User(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5), resultSet.getString(6),
+                        resultSet.getString(7), resultSet.getString(8), new ArrayList<>()));
+            }
+
+            if (listOfUsers.size()==1){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void addUser(String name, String surname, String username, String email, String password,
+                        String doctorName, String doctorSurname, List<Integer> allergies) {
+        try {
+            ResultSet resultSet = getIdForNewUser.executeQuery();
+            Integer idOfNewUser = resultSet.getInt(1);
+            insertNewUserQuery.setString(1,name);
+            insertNewUserQuery.setString(2,surname);
+            insertNewUserQuery.setString(3,username);
+            insertNewUserQuery.setString(4,email);
+            insertNewUserQuery.setString(5,password);
+            insertNewUserQuery.setString(6,doctorName);
+            insertNewUserQuery.setString(7,doctorSurname);
+            insertNewUserQuery.execute();
+
+            for (Integer integer: allergies) {
+                insertAllergyForUser.setInt(1, idOfNewUser);
+                insertAllergyForUser.setInt(2, integer);
+                insertAllergyForUser.execute();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

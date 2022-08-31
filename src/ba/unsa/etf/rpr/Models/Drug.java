@@ -2,10 +2,12 @@ package ba.unsa.etf.rpr.Models;
 
 import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import javafx.beans.property.*;
+
 import java.sql.Date;
 import java.util.Objects;
 
 public class Drug {
+    private int id;
     private SimpleStringProperty nameBosnian, nameEnglish, nameLatin, content, purpose;
     private SimpleObjectProperty<Date> expirationDate;
     private AdministrationTypes administrationTypes;
@@ -13,9 +15,10 @@ public class Drug {
     private SimpleDoubleProperty price;
     private Apothecary apothecary;
 
-    public Drug(String nameBosnian, String nameEnglish, String nameLatin, String content, String purpose
+    public Drug(int id, String nameBosnian, String nameEnglish, String nameLatin, String content, String purpose
             ,Date expirationDate, AdministrationTypes administrationTypes, String pictureUrl, Double price,
                 Apothecary apothecary) {
+        this.id = id;
         this.nameBosnian = new SimpleStringProperty(nameBosnian);
         this.nameEnglish = new SimpleStringProperty(nameEnglish);
         this.nameLatin = new SimpleStringProperty(nameLatin);
@@ -29,11 +32,19 @@ public class Drug {
     }
 
     public Drug() {
-        this("","","","","",new Date(1,1,1), AdministrationTypes.oralAdministration,"", 0D, new Apothecary());
+        this(0, "","","","","",new Date(1,1,1), AdministrationTypes.oralAdministration,"", 0D, new Apothecary());
     }
 
     public Apothecary getApothecary() {
         return apothecary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setApothecary(Apothecary apothecary) {

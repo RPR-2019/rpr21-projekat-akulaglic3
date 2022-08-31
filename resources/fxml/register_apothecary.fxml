@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.RegisterApothecaryController">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0"  hgrow="ALWAYS"/>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0"  hgrow="ALWAYS"/>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0"  hgrow="ALWAYS"/>
+   </columnConstraints>
+   <children>
+      <Label text="Enter you information:" GridPane.columnSpan="2">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <Label text="Apothecary name:" GridPane.rowIndex="1" />
+      <Label text="E-mail:" GridPane.rowIndex="2" />
+      <Label text="Password:" GridPane.rowIndex="3" />
+      <Label text="Address" GridPane.rowIndex="4" />
+      <Label text="Contact phone:" GridPane.rowIndex="5" />
+      <TextField fx:id="fldName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <TextField fx:id="fldEmail" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <PasswordField fx:id="fldPassword" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <TextField fx:id="fldAddress" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+      <TextField fx:id="fldPhone" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
+        <buttons>
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#actionRegister" text="Register" />
+            <Button mnemonicParsing="false" onAction="#actionBack" text="Back" />
+        </buttons>
+      </ButtonBar>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+   </padding>
+</GridPane>

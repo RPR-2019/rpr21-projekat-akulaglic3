@@ -6,12 +6,14 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.Objects;
 
 public class Apothecary {
+    private int id;
     private SimpleStringProperty name, address, contactPhone, email;
     private Admin admin;
     private SimpleDoubleProperty totalProfit;
 
-    public Apothecary(String name, String adress, String contactPhone,
+    public Apothecary(int id, String name, String adress, String contactPhone,
                       String email, Admin admin, Double totalProfit) {
+        this.id = id;
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleStringProperty(adress);
         this.contactPhone = new SimpleStringProperty(contactPhone);
@@ -21,6 +23,14 @@ public class Apothecary {
     }
 
     public Apothecary() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS "Allergies" (
 	"id"	INTEGER,
 	"user_id"	INTEGER,
 	"allergy"	INTEGER,
+	PRIMARY KEY("id"),
 	FOREIGN KEY("user_id") REFERENCES User("id")
 );
 CREATE TABLE IF NOT EXISTS "Apothecary" (

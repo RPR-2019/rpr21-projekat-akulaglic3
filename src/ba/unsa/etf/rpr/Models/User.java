@@ -6,14 +6,16 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.List;
 
 public class User {
+    private int id;
     private SimpleStringProperty name, surname,username, eMail, password, doctorName, doctorSurname;
     private List<Allergies> allergiesList;
 
     public User() {
     }
 
-    public User(String name, String surname, String username, String eMail, String password,
+    public User(int id, String name, String surname, String username, String eMail, String password,
                 String doctorName, String doctorSurname, List<Allergies> allergiesList) {
+        this.id = id;
         this.name = new SimpleStringProperty(name);
         this.surname = new SimpleStringProperty(surname);
         this.username = new SimpleStringProperty(username);
@@ -22,6 +24,14 @@ public class User {
         this.doctorName = new SimpleStringProperty(doctorName);
         this.doctorSurname = new SimpleStringProperty(doctorSurname);
         this.allergiesList = allergiesList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

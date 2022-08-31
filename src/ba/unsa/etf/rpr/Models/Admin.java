@@ -3,6 +3,14 @@ package ba.unsa.etf.rpr.Models;
 import java.util.Objects;
 
 public class Admin {
+    private int id;
+
+    public Admin(int id, String apothecaryName, String password) {
+        this.id = id;
+        this.apothecaryName = apothecaryName;
+        this.password = password;
+    }
+
     private String apothecaryName, password;
 
     public Admin() {
@@ -10,9 +18,12 @@ public class Admin {
         this.password = "";
     }
 
-    public Admin(String apothecaryName, String password) {
-        this.apothecaryName = apothecaryName;
-        this.password = password;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getApothecaryName() {
