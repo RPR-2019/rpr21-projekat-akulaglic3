@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
@@ -33,7 +34,9 @@ public class RegisterApothecaryController {
 
     public void actionBack(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/start.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/start.fxml" ), bundle);
+        Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 

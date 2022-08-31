@@ -7,6 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class Main extends Application {
@@ -14,8 +17,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         ApothecaryDAO.getInstance();
-
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/start.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/start.fxml" ), bundle);
+        Parent root = loader.load();
         primaryStage.setTitle("eHealth");
         primaryStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         primaryStage.show();

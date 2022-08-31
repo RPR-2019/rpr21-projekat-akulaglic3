@@ -2,10 +2,11 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
 <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.StartController">
   <columnConstraints>
     <ColumnConstraints hgrow="ALWAYS" maxWidth="579.6666666666666" minWidth="10.0" prefWidth="533.3333333333334" />
@@ -23,22 +24,22 @@
       <RowConstraints maxHeight="71.33333333333331" minHeight="10.0" prefHeight="32.0" vgrow="ALWAYS" />
   </rowConstraints>
    <children>
-      <Label text="Welcome to eHealth" underline="true" GridPane.columnSpan="2" GridPane.rowSpan="2">
+      <Label text="%headline" underline="true" GridPane.columnSpan="2" GridPane.rowSpan="2">
          <font>
             <Font name="Times New Roman" size="64.0" />
          </font></Label>
-      <Label minHeight="-Infinity" minWidth="-Infinity" text="Choose the type of an account you want to acess:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+      <Label minHeight="-Infinity" minWidth="-Infinity" text="%accountTypeMsg" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
          <font>
             <Font name="Times New Roman" size="24.0" />
          </font>
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin></Label>
-      <Button mnemonicParsing="false" onAction="#actionOpenLoginUser" text="User account" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#actionOpenLoginUser" text="%userAcc" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Button>
-      <Button mnemonicParsing="false" onAction="#actionOpenALoginpothecary" text="Apotechary account" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#actionOpenALoginpothecary" text="%apotAcc" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Button>
@@ -52,7 +53,7 @@
             <Insets top="15.0" />
          </GridPane.margin>
          <children>
-            <Label text="If you dont have an account, you need to register before continuing">
+            <Label text="%regMsg">
                <font>
                   <Font name="Times New Roman" size="14.0" />
                </font>
@@ -60,10 +61,10 @@
                   <Insets top="5.0" />
                </HBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#actionRegister" text="Create an account" />
+            <Button mnemonicParsing="false" onAction="#actionRegister" text="%createAcc" />
          </children>
       </HBox>
-      <Button cancelButton="true" mnemonicParsing="false" onAction="#actionExit" text="Exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+      <Button cancelButton="true" mnemonicParsing="false" onAction="#actionExit" text="%exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
          <padding>
             <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
          </padding>

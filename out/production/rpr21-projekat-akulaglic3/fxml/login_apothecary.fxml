@@ -20,19 +20,19 @@
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <children>
-      <Label text="Apothecary name:" GridPane.rowIndex="1" />
-      <Label text="Password:" GridPane.rowIndex="2" />
-      <PasswordField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-      <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-      <Label text="Login to you account" GridPane.columnSpan="3" GridPane.halignment="LEFT">
+      <Label text="%apotName" GridPane.rowIndex="1" />
+      <Label text="%password" GridPane.rowIndex="2" />
+      <PasswordField fx:id="fldPassword" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <TextField fx:id="fldApothecaryName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <Label text="%logAcc" GridPane.columnSpan="3" GridPane.halignment="LEFT">
          <font>
             <Font name="Times New Roman" size="16.0" />
          </font>
       </Label>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
         <buttons>
-          <Button defaultButton="true" mnemonicParsing="false" text="Login" />
-            <Button cancelButton="true" mnemonicParsing="false" text="Back" />
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#actionLogin" text="%login" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#actionBack" text="%back" />
         </buttons>
       </ButtonBar>
       <Line endX="100.0" startX="-100.0" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />

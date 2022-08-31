@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
@@ -25,7 +26,9 @@ public class StartController {
 
     public void actionOpenLoginUser(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login_user.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/login_user.fxml" ), bundle);
+        Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
@@ -38,7 +41,9 @@ public class StartController {
 
     public void actionOpenALoginpothecary(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login_apothecary.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/login_apothecary.fxml" ), bundle);
+        Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
@@ -50,7 +55,9 @@ public class StartController {
 
     public void actionRegister(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/option.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/option.fxml" ), bundle);
+        Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
