@@ -6,14 +6,14 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.Objects;
 
 public class Apothecary {
-    private SimpleStringProperty name, adress, contactPhone, email;
+    private SimpleStringProperty name, address, contactPhone, email;
     private Admin admin;
     private SimpleDoubleProperty totalProfit;
 
     public Apothecary(String name, String adress, String contactPhone,
                       String email, Admin admin, Double totalProfit) {
         this.name = new SimpleStringProperty(name);
-        this.adress = new SimpleStringProperty(adress);
+        this.address = new SimpleStringProperty(adress);
         this.contactPhone = new SimpleStringProperty(contactPhone);
         this.email = new SimpleStringProperty(email);
         this.admin = admin;
@@ -35,16 +35,16 @@ public class Apothecary {
         this.name.set(name);
     }
 
-    public String getAdress() {
-        return adress.get();
+    public String getAddress() {
+        return address.get();
     }
 
-    public SimpleStringProperty adressProperty() {
-        return adress;
+    public SimpleStringProperty addressProperty() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress.set(adress);
+    public void setAddress(String address) {
+        this.address.set(address);
     }
 
     public String getContactPhone() {
@@ -96,11 +96,11 @@ public class Apothecary {
         if (this == o) return true;
         if (!(o instanceof Apothecary)) return false;
         Apothecary that = (Apothecary) o;
-        return Objects.equals(name, that.name) && Objects.equals(adress, that.adress) && Objects.equals(contactPhone, that.contactPhone) && Objects.equals(email, that.email) && Objects.equals(admin, that.admin) && Objects.equals(totalProfit, that.totalProfit);
+        return Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(contactPhone, that.contactPhone) && Objects.equals(email, that.email) && Objects.equals(admin, that.admin) && Objects.equals(totalProfit, that.totalProfit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, adress, contactPhone, email, admin, totalProfit);
+        return Objects.hash(name, address, contactPhone, email, admin, totalProfit);
     }
 }

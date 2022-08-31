@@ -1,4 +1,4 @@
-package ba.unsa.etf.rpr.Models;
+package ba.unsa.etf.rpr.Enums;
 
 public enum AdministrationTypes {
     oralAdministration, sublingualAdministration, rectalAdministration, parenteralAdministration;

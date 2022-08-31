@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.Models;
 
+import ba.unsa.etf.rpr.Enums.Allergies;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.List;

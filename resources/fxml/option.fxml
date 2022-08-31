@@ -19,7 +19,7 @@
    <children>
       <Button mnemonicParsing="false" onAction="#actionRegisterPersonal" text="UserAccount" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <Button mnemonicParsing="false" onAction="#actionRegisterApothecary" text="Apothecary Account" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Button cancelButton="true" mnemonicParsing="false" text="Back" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button cancelButton="true" mnemonicParsing="false" onAction="#actionBack" text="Back" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <padding>
             <Insets bottom="5.0" left="19.0" right="19.0" top="5.0" />
          </padding>

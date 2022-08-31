@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.Models;
 
+import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import javafx.beans.property.*;
 import java.sql.Date;
 import java.util.Objects;

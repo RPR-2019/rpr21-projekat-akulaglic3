@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr;
 
+import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,11 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        /*String url = "jdbc:sqlite:baza.db";
-        Connection connection = DriverManager.getConnection(url);
-        Statement stat = connection.createStatement();
-        ResultSet resultSet = stat.executeQuery("Select * from knjiga");
-*/
+        ApothecaryDAO.getInstance();
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/start.fxml"));
         primaryStage.setTitle("eHealth");
