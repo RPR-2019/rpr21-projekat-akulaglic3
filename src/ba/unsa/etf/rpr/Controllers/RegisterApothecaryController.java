@@ -81,6 +81,7 @@ public class RegisterApothecaryController {
     }
 
     private void alertIncorectHeavy(String string) {
+
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setHeaderText("Invalid " + string + "!");
         errorAlert.setContentText("The entered " + string + " is invalid. It has to be between 3 and 24 characters " +
