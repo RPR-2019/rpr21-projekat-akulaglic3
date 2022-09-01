@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -45,8 +46,10 @@ public class LoginApothecaryController {
             myStage.show();
         }else{
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Apothecary name and password don't match");
-            errorAlert.setContentText("The entered name and password don't match. Are you sure you already have an account?");
+            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+            errorAlert.setHeaderText(bundle.getString("errorLoginHeadline2"));
+            errorAlert.setContentText(bundle.getString("errorLoginContent2"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             errorAlert.showAndWait();
         }
     }

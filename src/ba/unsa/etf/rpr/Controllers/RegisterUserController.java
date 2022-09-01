@@ -52,25 +52,26 @@ public class RegisterUserController {
         String surname = fldSurname.getText();
         String password = fldPassword.getText(), username = fldUsername.getText();
         String doctorName = fldDoctorName.getText(), doctorSurname = fldDoctorSurname.getText();
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
         if (!isStringCorrectEasy(name)){
-            alertIncorrectHeavy("name");
+            alertIncorrectHeavy(bundle.getString("nameRU"));
         }else if (!isStringCorrectHeavy(surname)){
             alertIncorrectHeavy(surname);
-        }else if (!isStringCorrectHeavy("surname")){
+        }else if (!isStringCorrectHeavy(bundle.getString("surnameRU"))){
             alertIncorrectHeavy(surname);
         }else if (!isStringCorrectEasy(username)){
-            alertIncorrectEasy("username");
+            alertIncorrectEasy(bundle.getString("usernameRU"));
         }else if (!isStringCorrectEasy(password)){
-            alertIncorrectEasy("password");
+            alertIncorrectEasy(bundle.getString("passwordRU"));
         }else if (!isStringCorrectHeavy(doctorName)){
-            alertIncorrectHeavy("doctor name");
+            alertIncorrectHeavy(bundle.getString("doctor_nameRU"));
         }else if (!isStringCorrectHeavy(doctorSurname)){
-            alertIncorrectHeavy("doctor surname");
+            alertIncorrectHeavy(bundle.getString("doctor_surnameRU"));
         }else if (userDAO.checkForSameUsername(username)){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Username taken!");
-            errorAlert.setContentText("The entered username is already being used. Please use a different one!");
+            errorAlert.setHeaderText(bundle.getString("errorRegisteringNameTakenHeadline"));
+            errorAlert.setContentText(bundle.getString("errorRegisteringNameTakenContent"));
             errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             errorAlert.showAndWait();
         }else {
@@ -102,17 +103,18 @@ public class RegisterUserController {
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText("Invalid " + string + "!");
-        errorAlert.setContentText("The entered " + string + " is invalid. It has to be between 3 and 24 characters!");
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
+        errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgEasy"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
     }
 
     private void alertIncorrectHeavy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText("Invalid " + string + "!");
-        errorAlert.setContentText("The entered " + string + " is invalid. It has to be between 3 and 24 characters " +
-                "and contain only letters A-Z and a-z!");
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
+        errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
     }

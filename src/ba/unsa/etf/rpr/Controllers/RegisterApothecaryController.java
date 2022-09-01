@@ -50,19 +50,20 @@ public class RegisterApothecaryController {
         String name = fldName.getCharacters().toString();
         String password = fldPassword.getText(), address = fldAddress.getCharacters().toString();
         String phone = fldPhone.getCharacters().toString();
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
         if (!isStringCorrectHeavy(name)){
-            alertIncorectHeavy("name");
+            alertIncorectHeavy(bundle.getString("nameRU"));
         }else if (!isStringCorrectEasy(password)){
-            alertIncorrectEasy("password");
+            alertIncorrectEasy(bundle.getString("passwordRU"));
         }else if (!isStringCorrectEasy(address)){
-            alertIncorrectEasy("address");
+            alertIncorrectEasy(bundle.getString("addressRU"));
         }else if (!isStringCorrectEasy(phone)){
-            alertIncorrectEasy("contact phone");
+            alertIncorrectEasy(bundle.getString("phoneRU"));
         }else if (apothecaryDAO.checkForSameName(name)){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Name already taken!");
-            errorAlert.setContentText("The entered name of an apothecary is already being used. Please use a different one!");
+            errorAlert.setHeaderText(bundle.getString("errorRegisteringNameTakenHeadline2"));
+            errorAlert.setContentText(bundle.getString("errorRegisteringNameTakenContent2"));
             errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             errorAlert.showAndWait();
         }else {
@@ -74,8 +75,9 @@ public class RegisterApothecaryController {
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText("Invalid " + string + "!");
-        errorAlert.setContentText("The entered " + string + " is invalid. It has to be between 3 and 24 characters!");
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
+        errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgEasy"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
     }
@@ -83,9 +85,9 @@ public class RegisterApothecaryController {
     private void alertIncorectHeavy(String string) {
 
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText("Invalid " + string + "!");
-        errorAlert.setContentText("The entered " + string + " is invalid. It has to be between 3 and 24 characters " +
-                "and contain only letters A-Z and a-z!");
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
+        errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
     }
