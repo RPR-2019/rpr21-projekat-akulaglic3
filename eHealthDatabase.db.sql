@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS "Drug" (
 	"content"	TEXT,
 	"purpose"	TEXT,
 	"expiration_date"	TEXT,
-	"picture_url"	TEXT,
+	"picture"	BLOB,
 	"price"	REAL,
 	"apothecary_id"	INTEGER,
 	PRIMARY KEY("id")

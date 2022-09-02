@@ -1,7 +1,9 @@
 package ba.unsa.etf.rpr.DAO;
 
 import ba.unsa.etf.rpr.Models.Admin;
+import ba.unsa.etf.rpr.Models.Apothecary;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
@@ -13,7 +15,9 @@ public class ApothecaryDAO {
     private static ApothecaryDAO instance = null;
     private Connection connection;
     private PreparedStatement preparedStatement, getAdminByNameAndPassword, getAdminByUsernameQuery
-            , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery;
+            , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery;
+
+    private PreparedStatement insertDrugQuery;
 
     private ApothecaryDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -30,6 +34,8 @@ public class ApothecaryDAO {
                 connection.prepareStatement("Select * from Admin Where apothecary_name = ? and password = ?");
         getAdminByUsernameQuery =
                 connection.prepareStatement("Select * from Admin Where apothecary_name = ?");
+        getApothecaryQuery =
+                connection.prepareStatement("Select * from Apothecary Where name = ?");
 
         insertNewApothecaryQuery =
                 connection.prepareStatement("INSERT INTO Apothecary VALUES ((SELECT MAX(a.id) FROM apothecary a)+1,?,?,?,?,?)");
@@ -37,6 +43,9 @@ public class ApothecaryDAO {
                 connection.prepareStatement("INSERT INTO Admin VALUES ((SELECT MAX(a.id) FROM admin a)+1,?,?)");
         getIdForNewApothecary =
                 connection.prepareStatement("SELECT MAX(a.id)+1 FROM apothecary a");
+
+
+        insertDrugQuery =connection.prepareStatement("INSERT INTO Drug VALUES ((SELECT MAX(d.id) FROM drug d)+1,?,?,?,?,?,?,?,?,?)");
     }
 
     public static void removeInstance() throws SQLException {
@@ -83,6 +92,16 @@ public class ApothecaryDAO {
         }
 
         return listOfAdmins;
+    }
+    private List<Apothecary> getApothecaryListFromResultSet(ResultSet resultSet) throws SQLException {
+        List<Apothecary> listOfApothecary = new ArrayList<>();
+        while (resultSet.next()){
+            listOfApothecary.add(new Apothecary(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+                    resultSet.getDouble(6)));
+        }
+
+        return listOfApothecary;
     }
 
     public Boolean checkIfAdminExists(String name, String password) {
@@ -131,5 +150,39 @@ public class ApothecaryDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addDrug(String nameBos, String nameEng, String nameLat,
+                        String purpose, String content, String expDate, byte[] person_image, Double price, int idApothecary) {
+        try {
+            Blob blob = new SerialBlob(person_image);
+            insertDrugQuery.setString(1,nameBos);
+            insertDrugQuery.setString(2,nameEng);
+            insertDrugQuery.setString(3,nameLat);
+            insertDrugQuery.setString(4,content);
+            insertDrugQuery.setString(5,purpose);
+            insertDrugQuery.setString(6,expDate);
+            insertDrugQuery.setBytes(7,person_image);
+            insertDrugQuery.setDouble(8, price);
+            insertDrugQuery.setInt(9,idApothecary);
+            insertDrugQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Apothecary getApothecary(String name) {
+        List<Apothecary> apothecaryList = new ArrayList<>();
+        try {
+            getApothecaryQuery.setString(1,name);
+            ResultSet resultSet = getApothecaryQuery.executeQuery();
+            apothecaryList = getApothecaryListFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (apothecaryList.size()==0){
+            return null;
+        }
+        return apothecaryList.get(0);
     }
 }

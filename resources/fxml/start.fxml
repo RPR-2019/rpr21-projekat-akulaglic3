@@ -24,22 +24,22 @@
       <RowConstraints maxHeight="71.33333333333331" minHeight="10.0" prefHeight="32.0" vgrow="ALWAYS" />
   </rowConstraints>
    <children>
-      <Label text="%headline" underline="true" GridPane.columnSpan="2" GridPane.rowSpan="2">
+      <Label fx:id="lbHeadline" text="%headline" underline="true" GridPane.columnSpan="2" GridPane.rowSpan="2">
          <font>
             <Font name="Times New Roman" size="64.0" />
          </font></Label>
-      <Label minHeight="-Infinity" minWidth="-Infinity" text="%accountTypeMsg" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+      <Label fx:id="lbAccTypeMsg" minHeight="-Infinity" minWidth="-Infinity" text="%accountTypeMsg" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
          <font>
             <Font name="Times New Roman" size="24.0" />
          </font>
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin></Label>
-      <Button mnemonicParsing="false" onAction="#actionOpenLoginUser" text="%userAcc" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+      <Button fx:id="btnUserAccount" mnemonicParsing="false" onAction="#actionOpenLoginUser" text="%userAcc" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Button>
-      <Button mnemonicParsing="false" onAction="#actionOpenALoginpothecary" text="%apotAcc" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+      <Button fx:id="btnApotAcc" mnemonicParsing="false" onAction="#actionOpenALoginpothecary" text="%apotAcc" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Button>
@@ -53,7 +53,7 @@
             <Insets top="15.0" />
          </GridPane.margin>
          <children>
-            <Label text="%regMsg">
+            <Label fx:id="lbRegMsg" text="%regMsg">
                <font>
                   <Font name="Times New Roman" size="14.0" />
                </font>
@@ -61,14 +61,16 @@
                   <Insets top="5.0" />
                </HBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#actionRegister" text="%createAcc" />
+            <Button fx:id="btnCreateAcc" mnemonicParsing="false" onAction="#actionRegister" text="%createAcc" />
          </children>
       </HBox>
-      <Button cancelButton="true" mnemonicParsing="false" onAction="#actionExit" text="%exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnExit" cancelButton="true" mnemonicParsing="false" onAction="#actionExit" text="%exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
          <padding>
             <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
          </padding>
       </Button>
+      <ChoiceBox fx:id="cbLanguage" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Label fx:id="lbChoose" text="%lgChoose" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
    </children>
    <padding>
       <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />

@@ -8,17 +8,15 @@ import java.util.Objects;
 public class Apothecary {
     private int id;
     private SimpleStringProperty name, address, contactPhone, email;
-    private Admin admin;
     private SimpleDoubleProperty totalProfit;
 
     public Apothecary(int id, String name, String adress, String contactPhone,
-                      String email, Admin admin, Double totalProfit) {
+                      String email, Double totalProfit) {
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleStringProperty(adress);
         this.contactPhone = new SimpleStringProperty(contactPhone);
         this.email = new SimpleStringProperty(email);
-        this.admin = admin;
         this.totalProfit = new SimpleDoubleProperty(totalProfit);
     }
 
@@ -81,14 +79,6 @@ public class Apothecary {
         this.email.set(email);
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }
-
     public double getTotalProfit() {
         return totalProfit.get();
     }
@@ -106,11 +96,11 @@ public class Apothecary {
         if (this == o) return true;
         if (!(o instanceof Apothecary)) return false;
         Apothecary that = (Apothecary) o;
-        return Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(contactPhone, that.contactPhone) && Objects.equals(email, that.email) && Objects.equals(admin, that.admin) && Objects.equals(totalProfit, that.totalProfit);
+        return Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(contactPhone, that.contactPhone) && Objects.equals(email, that.email) && Objects.equals(totalProfit, that.totalProfit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, contactPhone, email, admin, totalProfit);
+        return Objects.hash(name, address, contactPhone, email, totalProfit);
     }
 }
