@@ -36,12 +36,14 @@ public class LoginApothecaryController {
         if(userExists){
             Apothecary apothecary = apothecaryDAO.getApothecary(fldApothecaryName.getText());
 
+            MainApothecaryController controller = new MainApothecaryController(apothecary);
             ResourceBundle bundle = ResourceBundle.getBundle("Translation");
             FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/main_apothecary.fxml" ), bundle);
+
+            loader.setController(controller);
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
-            MainApothecaryController controller = loader.getController();
-            controller.initData(apothecary);
+
             stage.setTitle("eHealth");
             stage.show();
 

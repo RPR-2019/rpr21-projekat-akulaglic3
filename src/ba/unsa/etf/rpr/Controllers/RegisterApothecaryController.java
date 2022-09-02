@@ -60,14 +60,14 @@ public class RegisterApothecaryController {
             alertIncorrectEasy(bundle.getString("addressRU"));
         }else if (!isStringCorrectEasy(phone)){
             alertIncorrectEasy(bundle.getString("phoneRU"));
-        }else if (apothecaryDAO.checkForSameName(name)){
+        }else if (apothecaryDAO.checkForSameAdminName(name)){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText(bundle.getString("errorRegisteringNameTakenHeadline2"));
             errorAlert.setContentText(bundle.getString("errorRegisteringNameTakenContent2"));
             errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             errorAlert.showAndWait();
         }else {
-            apothecaryDAO.addApothecary(name, fldEmail.toString(),
+            apothecaryDAO.addApothecary(name, fldEmail.getText(),
                     password, address, phone);
         }
     }

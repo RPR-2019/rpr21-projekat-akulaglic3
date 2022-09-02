@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS "Drug" (
 	"content"	TEXT,
 	"purpose"	TEXT,
 	"expiration_date"	TEXT,
+	"administration_type" INTEGER,
 	"picture"	BLOB,
 	"price"	REAL,
 	"apothecary_id"	INTEGER,

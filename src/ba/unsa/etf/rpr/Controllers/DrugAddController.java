@@ -1,9 +1,12 @@
 package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
+import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import ba.unsa.etf.rpr.Models.Apothecary;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -23,6 +26,7 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -38,7 +42,10 @@ public class DrugAddController {
     public TextField tfPrice;
     public Button btnUpload;
     public ImageView idImageDrugs;
+    public ChoiceBox cmbAdministrationType;
     private ApothecaryDAO apothecaryDAO = null;
+
+    private ObservableList<String> listOfAdministrationTypes = FXCollections.observableArrayList();
 
     private Apothecary apothecary = null;
     private byte[] person_image = null;
@@ -64,6 +71,19 @@ public class DrugAddController {
                 }
             }
         });
+
+        if (Locale.getDefault().equals(new Locale("bs", "BA"))){
+            listOfAdministrationTypes.add("Oralno");
+            listOfAdministrationTypes.add("Sublingvalno");
+            listOfAdministrationTypes.add("Rektalno");
+            listOfAdministrationTypes.add("Parenteralno");
+        }else{
+            listOfAdministrationTypes.add("Oral");
+            listOfAdministrationTypes.add("Sublingual");
+            listOfAdministrationTypes.add("Rectal");
+            listOfAdministrationTypes.add("Parenteral");
+        }
+        cmbAdministrationType.setItems(listOfAdministrationTypes);
     }
 
     @FXML
@@ -128,7 +148,8 @@ public class DrugAddController {
             alertIncorrectHeavy(bundle.getString("nameLATRU"));
         }else {
             apothecaryDAO.addDrug(nameBos, nameEng, nameLat,
-                    purpose, content, localDate.toString(), person_image,price, apothecary.getId());
+                    purpose, content, localDate.toString(),
+                    cmbAdministrationType.getSelectionModel().getSelectedIndex(),person_image,price, apothecary.getId());
         }
     }
 

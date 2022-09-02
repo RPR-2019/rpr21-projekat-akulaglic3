@@ -4,19 +4,21 @@ import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import javafx.beans.property.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Drug {
     private int id;
     private SimpleStringProperty nameBosnian, nameEnglish, nameLatin, content, purpose;
-    private SimpleObjectProperty<Date> expirationDate;
+    private SimpleObjectProperty<LocalDate> expirationDate;
     private AdministrationTypes administrationTypes;
-    private String pictureUrl;
+    private byte[] pictureUrl;
     private SimpleDoubleProperty price;
     private Apothecary apothecary;
 
     public Drug(int id, String nameBosnian, String nameEnglish, String nameLatin, String content, String purpose
-            ,Date expirationDate, AdministrationTypes administrationTypes, String pictureUrl, Double price,
+            ,LocalDate expirationDate, AdministrationTypes administrationTypes, byte[] pictureUrl, Double price,
                 Apothecary apothecary) {
         this.id = id;
         this.nameBosnian = new SimpleStringProperty(nameBosnian);
@@ -24,7 +26,7 @@ public class Drug {
         this.nameLatin = new SimpleStringProperty(nameLatin);
         this.content = new SimpleStringProperty(content);
         this.purpose = new SimpleStringProperty(purpose);
-        this.expirationDate = new SimpleObjectProperty<Date>(expirationDate);
+        this.expirationDate = new SimpleObjectProperty<LocalDate>(expirationDate);
         this.administrationTypes = administrationTypes;
         this.pictureUrl = pictureUrl;
         this.price = new SimpleDoubleProperty(price);
@@ -32,7 +34,6 @@ public class Drug {
     }
 
     public Drug() {
-        this(0, "","","","","",new Date(1,1,1), AdministrationTypes.oralAdministration,"", 0D, new Apothecary());
     }
 
     public Apothecary getApothecary() {
@@ -111,15 +112,15 @@ public class Drug {
         this.purpose.set(purpose);
     }
 
-    public Date getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate.get();
     }
 
-    public ObjectProperty<Date> expirationDateProperty() {
+    public ObjectProperty<LocalDate> expirationDateProperty() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate.set(expirationDate);
     }
 
@@ -131,12 +132,18 @@ public class Drug {
         this.administrationTypes = administrationTypes;
     }
 
-    public String getPictureUrl() {
+    @Override
+    public String toString() {
+        return nameEnglish.get() + "(" + nameLatin.get() +
+                "), " + price.get() +
+                '€';
+    }
+
+    public byte[] getPictureUrl() {
         return pictureUrl;
     }
 
-
-    public void setPictureUrl(String pictureUrl) {
+    public void setPictureUrl(byte[] pictureUrl) {
         this.pictureUrl = pictureUrl;
     }
 

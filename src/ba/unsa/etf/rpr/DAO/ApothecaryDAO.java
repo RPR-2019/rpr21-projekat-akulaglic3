@@ -1,12 +1,23 @@
 package ba.unsa.etf.rpr.DAO;
 
+import ba.unsa.etf.rpr.Enums.AdministrationTypes;
+import ba.unsa.etf.rpr.Exceptions.IllegalAdministrationType;
 import ba.unsa.etf.rpr.Models.Admin;
 import ba.unsa.etf.rpr.Models.Apothecary;
+import ba.unsa.etf.rpr.Models.Drug;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +28,7 @@ public class ApothecaryDAO {
     private PreparedStatement preparedStatement, getAdminByNameAndPassword, getAdminByUsernameQuery
             , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery;
 
-    private PreparedStatement insertDrugQuery;
+    private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery;
 
     private ApothecaryDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -45,7 +56,8 @@ public class ApothecaryDAO {
                 connection.prepareStatement("SELECT MAX(a.id)+1 FROM apothecary a");
 
 
-        insertDrugQuery =connection.prepareStatement("INSERT INTO Drug VALUES ((SELECT MAX(d.id) FROM drug d)+1,?,?,?,?,?,?,?,?,?)");
+        insertDrugQuery =connection.prepareStatement("INSERT INTO Drug VALUES ((SELECT MAX(d.id) FROM drug d)+1,?,?,?,?,?,?,?,?,?, ?)");
+        getDrugsForApothecaryQuery = connection.prepareStatement("Select * from Drug where apothecary_id=? ORDER BY name_english");
     }
 
     public static void removeInstance() throws SQLException {
@@ -119,7 +131,7 @@ public class ApothecaryDAO {
         return false;
     }
 
-    public Boolean checkForSameName(String name) {
+    public Boolean checkForSameAdminName(String name) {
         try {
             getAdminByUsernameQuery.setString(1, name);
             ResultSet resultSet = getAdminByUsernameQuery.executeQuery();
@@ -153,7 +165,7 @@ public class ApothecaryDAO {
     }
 
     public void addDrug(String nameBos, String nameEng, String nameLat,
-                        String purpose, String content, String expDate, byte[] person_image, Double price, int idApothecary) {
+                        String purpose, String content, String expDate, int selectedIndex, byte[] person_image, Double price, int idApothecary) {
         try {
             Blob blob = new SerialBlob(person_image);
             insertDrugQuery.setString(1,nameBos);
@@ -162,9 +174,10 @@ public class ApothecaryDAO {
             insertDrugQuery.setString(4,content);
             insertDrugQuery.setString(5,purpose);
             insertDrugQuery.setString(6,expDate);
-            insertDrugQuery.setBytes(7,person_image);
-            insertDrugQuery.setDouble(8, price);
-            insertDrugQuery.setInt(9,idApothecary);
+            insertDrugQuery.setInt(7,selectedIndex);
+            insertDrugQuery.setBytes(8,person_image);
+            insertDrugQuery.setDouble(9, price);
+            insertDrugQuery.setInt(10,idApothecary);
             insertDrugQuery.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,5 +197,35 @@ public class ApothecaryDAO {
             return null;
         }
         return apothecaryList.get(0);
+    }
+
+    public ObservableList<Drug> getDrugsForApothecary(Apothecary apothecary){
+        ObservableList<Drug> drugList = FXCollections.observableArrayList();
+        try {
+            getDrugsForApothecaryQuery.setInt(1, apothecary.getId());
+            ResultSet resultSet = getDrugsForApothecaryQuery.executeQuery();
+            drugList = getDrugsFromRS(resultSet, apothecary);
+        } catch (SQLException | IllegalAdministrationType e) {
+            e.printStackTrace();
+        }
+        return drugList;
+    }
+
+    private ObservableList<Drug> getDrugsFromRS(ResultSet resultSet, Apothecary apothecary) throws SQLException, IllegalAdministrationType {
+        ObservableList<Drug> drugList = FXCollections.observableArrayList();
+        while (resultSet.next()){
+            LocalDate date=null;
+            String dateString = resultSet.getString(7);
+            byte[] pictureBytes = resultSet.getBytes(9);
+
+            date = LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);
+
+            drugList.add(new Drug(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+                    resultSet.getString(6), date, AdministrationTypes.valueOf(resultSet.getInt(8)),
+                    pictureBytes, resultSet.getDouble(10), apothecary));
+        }
+
+        return drugList;
     }
 }
