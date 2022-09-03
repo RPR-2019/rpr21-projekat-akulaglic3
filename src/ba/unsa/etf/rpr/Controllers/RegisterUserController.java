@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.UserDAO;
+import ba.unsa.etf.rpr.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +48,7 @@ public class RegisterUserController {
         userDAO = UserDAO.getInstance();
     }
 
-    public void actionRegister(ActionEvent actionEvent) {
+    public void actionRegister(ActionEvent actionEvent) throws SQLException, IOException {
         String name = fldName.getText();
         String surname = fldSurname.getText();
         String password = fldPassword.getText(), username = fldUsername.getText();
@@ -98,6 +99,22 @@ public class RegisterUserController {
                 allergies.add(6);
             }
             userDAO.addUser(name, surname, username, fldEmail.getText(), password, doctorName, doctorSurname,allergies);
+
+            User newUser = userDAO.getUser(fldUsername.getText());
+
+            MainUserController controller = new MainUserController(newUser);
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/main_user.fxml" ), bundle);
+
+            loader.setController(controller);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+            stage.setTitle("eHealth");
+            stage.show();
+
+            Node n = (Node) actionEvent.getSource();
+            Stage currentStage = (Stage) n.getScene().getWindow();
+            currentStage.close();
         }
     }
 

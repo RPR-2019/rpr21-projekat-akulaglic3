@@ -1,6 +1,8 @@
 package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.UserDAO;
+import ba.unsa.etf.rpr.Models.Apothecary;
+import ba.unsa.etf.rpr.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,21 +31,26 @@ public class LoginUserController {
         userDAO = UserDAO.getInstance();
     }
 
-    public void actionLogin(ActionEvent actionEvent) throws IOException {
+    public void actionLogin(ActionEvent actionEvent) throws IOException, SQLException {
         Boolean userExists = userDAO.checkIfUserExists(fldUsername.getCharacters().toString(), fldPassword.getCharacters().toString());
 
         if(userExists){
-            Stage myStage = new Stage();
+            User user = userDAO.getUser(fldUsername.getText());
+
+            MainUserController controller = new MainUserController(user);
             ResourceBundle bundle = ResourceBundle.getBundle("Translation");
-            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/mainUser.fxml" ), bundle);
-            Parent root = loader.load();
-            myStage.setTitle("eHealth");
-            myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/main_user.fxml" ), bundle);
+
+            loader.setController(controller);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+            stage.setTitle("eHealth");
+            stage.show();
 
             Node n = (Node) actionEvent.getSource();
-            Stage stage = (Stage) n.getScene().getWindow();
-            stage.close();
-            myStage.show();
+            Stage currentStage = (Stage) n.getScene().getWindow();
+            currentStage.close();
         }else{
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             ResourceBundle bundle = ResourceBundle.getBundle("Translation");

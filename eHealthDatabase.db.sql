@@ -55,6 +55,6 @@ CREATE TABLE IF NOT EXISTS "Item" (
 	"buyer_id"	INTEGER,
 	PRIMARY KEY("id")
 	FOREIGN KEY("drug_id") REFERENCES Drug("id"),
-	FOREIGN KEY("buyer_id") REFERENCES User("id"),
+	FOREIGN KEY("buyer_id") REFERENCES User("id")
 );
 COMMIT;

@@ -25,7 +25,7 @@ public class ApothecaryDAO {
             , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery, getApothecaryByIDQuery;
 
     private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery, deleteDrugQuery,
-     updateDrugQuery, getDrugByIdQuery;
+     updateDrugQuery, getDrugByIdQuery, getAllDrugsQuery;
 
     private ApothecaryDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -62,6 +62,7 @@ public class ApothecaryDAO {
                 ", content=?, purpose=?, expiration_date=?, administration_type=?, picture=?, price=? WHERE id=?");
 
         getDrugByIdQuery = connection.prepareStatement("SELECT * FROM DRUG where id = ?");
+        getAllDrugsQuery = connection.prepareStatement("Select * FROM drug");
     }
 
     public static void removeInstance() throws SQLException {
@@ -290,5 +291,35 @@ public class ApothecaryDAO {
         }
 
         return drugObservableList.get(0);
+    }
+
+    public ObservableList<Drug> getAllDrugs() {
+        ObservableList<Drug> drugList = FXCollections.observableArrayList();
+        try {
+            ResultSet resultSet = getAllDrugsQuery.executeQuery();
+            drugList = getAllDrugsFromRS(resultSet);
+        } catch (SQLException | IllegalAdministrationType e) {
+            e.printStackTrace();
+        }
+        return drugList;
+    }
+
+    private ObservableList<Drug> getAllDrugsFromRS(ResultSet resultSet) throws SQLException, IllegalAdministrationType {
+        ObservableList<Drug> drugList = FXCollections.observableArrayList();
+        while (resultSet.next()){
+            LocalDate date=null;
+            String dateString = resultSet.getString(7);
+            byte[] pictureBytes = resultSet.getBytes(9);
+            Apothecary apothecary = ApothecaryDAO.getInstance().getApothecaryByID(resultSet.getInt(11));
+
+            date = LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);
+
+            drugList.add(new Drug(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+                    resultSet.getString(6), date, AdministrationTypes.valueOf(resultSet.getInt(8)),
+                    pictureBytes, resultSet.getDouble(10), apothecary));
+        }
+
+        return drugList;
     }
 }

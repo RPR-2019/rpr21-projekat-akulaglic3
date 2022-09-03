@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.MainUserController">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"> <!--fx:controller="ba.unsa.etf.rpr.Controllers.MainUserController"-->
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -61,8 +61,8 @@
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionBuyMenu" text="%buyMenu" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionEditAccount" text="%editAcc" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionRemoveDrug" text="%removeDrug" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionCheckout" text="%checkout" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <Button fx:id="btnRemoveDrug" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionRemoveDrug" text="%removeDrug" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <Button fx:id="btnCheckout" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionCheckout" text="%checkout" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </center>

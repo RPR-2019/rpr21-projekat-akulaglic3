@@ -19,7 +19,7 @@ public class UserDAO {
     private PreparedStatement preparedStatement, getUserByUsernameAndPasswordQuery,
             getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser;
 
-    private PreparedStatement getCheckoutItemsForUserQuery;
+    private PreparedStatement getCheckoutItemsForUserQuery, addItemQuery, deleteItemQuery;
 
     private UserDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -46,6 +46,8 @@ public class UserDAO {
                 connection.prepareStatement("SELECT MAX(u.id)+1 FROM user u");
 
         getCheckoutItemsForUserQuery =  connection.prepareStatement("SELECT * FROM Item WHERE buyer_id = ?");
+        addItemQuery =  connection.prepareStatement("INSERT INTO Item VALUES ((SELECT MAX(i.id) FROM item i)+1,?,?,?)");
+        deleteItemQuery =  connection.prepareStatement("DELETE FROM Item WHERE id = ?");
     }
 
     public static void removeInstance() throws SQLException {
@@ -181,5 +183,47 @@ public class UserDAO {
         }
 
         return items;
+    }
+
+    public User getUser(String username) {
+        try {
+            getUserByUsernameQuery.setString(1, username);
+            ResultSet resultSet = getUserByUsernameQuery.executeQuery();
+
+            List<User> listOfUsers = new ArrayList<>();
+            while (resultSet.next()){
+                listOfUsers.add(new User(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5), resultSet.getString(6),
+                        resultSet.getString(7), resultSet.getString(8), new ArrayList<>()));
+            }
+
+            if (listOfUsers.size()==1){
+                return listOfUsers.get(0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void removeItem(Item selectedItem) {
+        try {
+            deleteItemQuery.setInt(1, selectedItem.getId());
+            deleteItemQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addItem(Item newItem) {
+        try {
+            addItemQuery.setInt(1, newItem.getDrug().getId());
+            addItemQuery.setInt(2, newItem.getAmount());
+            addItemQuery.setInt(3, newItem.getBuyerId());
+            addItemQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
