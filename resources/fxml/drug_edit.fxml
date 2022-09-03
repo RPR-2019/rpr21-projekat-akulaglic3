@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" ><!--fx:controller="ba.unsa.etf.rpr.Controllers.DrugEditController"-->
+    <stylesheets>
+        <URL value="@/css/drug_image.css" />
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+    </rowConstraints>
+    <padding>
+        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+    </padding>
+    <children>
+        <Label text="%nameEng" GridPane.rowIndex="1" />
+        <Label text="%nameBos" GridPane.rowIndex="2" />
+        <Label text="%nameLat" GridPane.rowIndex="3" />
+        <Label text="%content" GridPane.rowIndex="6" />
+        <Label text="%purpose" GridPane.rowIndex="9" />
+        <TextField fx:id="tfNameEng" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+        <TextField fx:id="tfNameBos" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+        <TextField fx:id="tfNameLat" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+        <TextArea fx:id="taContent" prefHeight="94.0" prefWidth="205.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="3" />
+        <TextArea fx:id="taPurpose" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.rowSpan="3" />
+        <DatePicker fx:id="dpExpDate" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
+        <Label text="%expDate" GridPane.rowIndex="11" />
+        <Label text="%price" GridPane.rowIndex="12" />
+        <Label text="%drugInf" GridPane.columnSpan="2" />
+        <ImageView id="image-view-wrapper" fx:id="idImageDrugs" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="5" />
+        <Button fx:id="btnUpload" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionUpload" text="%upload" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
+        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionClear" text="%clear" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+            <padding>
+                <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+            </padding>
+        </Button>
+        <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="14">
+            <buttons>
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#actionSaveDrug" text="%save" />
+                <Button cancelButton="true" mnemonicParsing="false" onAction="#actionExit" text="%exit" />
+            </buttons>
+        </ButtonBar>
+        <TextField fx:id="tfPrice" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+        <ChoiceBox fx:id="cmbAdministrationType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="13" />
+        <Label text="%administrationType" GridPane.rowIndex="13" />
+    </children>
+</GridPane>

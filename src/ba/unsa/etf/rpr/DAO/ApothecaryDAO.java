@@ -28,7 +28,8 @@ public class ApothecaryDAO {
     private PreparedStatement preparedStatement, getAdminByNameAndPassword, getAdminByUsernameQuery
             , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery;
 
-    private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery;
+    private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery, deleteDrugQuery,
+     updateDrugQuery;
 
     private ApothecaryDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -58,6 +59,9 @@ public class ApothecaryDAO {
 
         insertDrugQuery =connection.prepareStatement("INSERT INTO Drug VALUES ((SELECT MAX(d.id) FROM drug d)+1,?,?,?,?,?,?,?,?,?, ?)");
         getDrugsForApothecaryQuery = connection.prepareStatement("Select * from Drug where apothecary_id=? ORDER BY name_english");
+        deleteDrugQuery = connection.prepareStatement("Delete from Drug where id = ?");
+        updateDrugQuery = connection.prepareStatement("UPDATE Drug SET name_bosnian=?, name_english=?, name_latin=? " +
+                ", content=?, purpose=?, expiration_date=?, administration_type=?, picture=?, price=? WHERE id=?");
     }
 
     public static void removeInstance() throws SQLException {
@@ -227,5 +231,32 @@ public class ApothecaryDAO {
         }
 
         return drugList;
+    }
+
+    public void deleteDrug(Drug selectedDrug) {
+        try {
+            deleteDrugQuery.setInt(1, selectedDrug.getId());
+            deleteDrugQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDrug(Drug currentDrug) {
+        try {
+            updateDrugQuery.setString(1, currentDrug.getNameBosnian());
+            updateDrugQuery.setString(2, currentDrug.getNameEnglish());
+            updateDrugQuery.setString(3, currentDrug.getNameLatin());
+            updateDrugQuery.setString(4, currentDrug.getContent());
+            updateDrugQuery.setString(5, currentDrug.getPurpose());
+            updateDrugQuery.setString(6, currentDrug.getExpirationDate().toString());
+            updateDrugQuery.setInt(7, currentDrug.getAdministrationTypes().value);
+            updateDrugQuery.setBytes(8, currentDrug.getPictureUrl());
+            updateDrugQuery.setDouble(9, currentDrug.getPrice());
+            updateDrugQuery.setInt(10, currentDrug.getId());
+            updateDrugQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

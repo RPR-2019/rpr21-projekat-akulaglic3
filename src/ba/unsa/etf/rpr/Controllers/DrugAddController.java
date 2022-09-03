@@ -63,12 +63,9 @@ public class DrugAddController {
                 }
             }
         });*/
-        tfPrice.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,2})?")) {
-                    tfPrice.setText(oldValue);
-                }
+        tfPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,2})?")) {
+                tfPrice.setText(oldValue);
             }
         });
 
@@ -150,6 +147,9 @@ public class DrugAddController {
             apothecaryDAO.addDrug(nameBos, nameEng, nameLat,
                     purpose, content, localDate.toString(),
                     cmbAdministrationType.getSelectionModel().getSelectedIndex(),person_image,price, apothecary.getId());
+            Stage stage = (Stage) tfNameLat.getScene().getWindow();
+            stage.close();
+
         }
     }
 

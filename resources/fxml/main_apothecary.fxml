@@ -5,22 +5,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"> <!--fx:controller="ba.unsa.etf.rpr.Controllers.MainApothecaryController"-->
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu text="%file">
             <items>
-                  <MenuItem mnemonicParsing="false" text="%addDrug" />
-                  <MenuItem mnemonicParsing="false" text="%logout" />
+                  <MenuItem mnemonicParsing="false" onAction="#actionAddNewDrug" text="%addDrug" />
+                  <MenuItem mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
               <MenuItem onAction="#actionClose" text="%exit" />
             </items>
           </Menu>
           <Menu text="%help">
             <items>
-              <MenuItem fx:id="actionAbout" mnemonicParsing="false" text="%about" />
-                  <MenuItem mnemonicParsing="false" text="%keyboardShortcuts" />
-                  <MenuItem fx:id="actionHelp" mnemonicParsing="false" text="%help" />
+              <MenuItem mnemonicParsing="false" onAction="#actionAbout" text="%about" />
+                  <MenuItem mnemonicParsing="false" onAction="#actionKeyboardShortcut" text="%keyboardShortcuts" />
+                  <MenuItem mnemonicParsing="false" onAction="#actionHelp" text="%help" />
             </items>
           </Menu>
         </menus>
@@ -74,8 +74,8 @@
             <Button mnemonicParsing="false" onAction="#actionAddNewDrug" text="%addDrug" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
               <buttons>
-                  <Button mnemonicParsing="false" text="%editDrug" />
-                <Button mnemonicParsing="false" text="%deleteDrug" />
+                  <Button fx:id="btnEditDrug" mnemonicParsing="false" onAction="#actionEditDrug" text="%editDrug" />
+                <Button fx:id="btnDeleteDrug" mnemonicParsing="false" onAction="#actionDeleteDrug" text="%deleteDrug" />
               </buttons>
             </ButtonBar>
             <Label text="%totalProfit" GridPane.rowIndex="6" />
@@ -93,8 +93,8 @@
    <bottom>
       <ButtonBar maxHeight="1.7976931348623157E308" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="%logout" />
-            <Button mnemonicParsing="false" text="%exit" />
+          <Button mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
+            <Button mnemonicParsing="false" onAction="#actionClose" text="%exit" />
         </buttons>
          <padding>
             <Insets bottom="5.0" right="5.0" top="10.0" />

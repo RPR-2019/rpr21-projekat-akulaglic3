@@ -9,7 +9,7 @@ public enum AdministrationTypes {
     oralAdministration(0), sublingualAdministration(1), rectalAdministration(2),
     parenteralAdministration(3);
 
-    private final int value;
+    public final int value;
 
     AdministrationTypes(int value) {
         this.value = value;

@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
+import ba.unsa.etf.rpr.Models.Apothecary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,7 +47,7 @@ public class RegisterApothecaryController {
         myStage.show();
     }
 
-    public void actionRegister(ActionEvent actionEvent) {
+    public void actionRegister(ActionEvent actionEvent) throws IOException {
         String name = fldName.getCharacters().toString();
         String password = fldPassword.getText(), address = fldAddress.getCharacters().toString();
         String phone = fldPhone.getCharacters().toString();
@@ -69,6 +70,21 @@ public class RegisterApothecaryController {
         }else {
             apothecaryDAO.addApothecary(name, fldEmail.getText(),
                     password, address, phone);
+            Apothecary newApothecary = apothecaryDAO.getApothecary(name);
+
+            MainApothecaryController controller = new MainApothecaryController(newApothecary);
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/main_apothecary.fxml" ), bundle);
+
+            loader.setController(controller);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+            stage.setTitle("eHealth");
+            stage.show();
+
+            Node n = (Node) actionEvent.getSource();
+            Stage currentStage = (Stage) n.getScene().getWindow();
+            currentStage.close();
         }
     }
 
