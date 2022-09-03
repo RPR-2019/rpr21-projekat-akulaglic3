@@ -5,8 +5,6 @@ import ba.unsa.etf.rpr.DAO.UserDAO;
 import ba.unsa.etf.rpr.Models.Drug;
 import ba.unsa.etf.rpr.Models.Item;
 import ba.unsa.etf.rpr.Models.User;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.InputStream;
@@ -22,6 +21,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class BuyMenuController {
     public TextField fldSearch;
@@ -32,16 +34,16 @@ public class BuyMenuController {
     public TextField fldNameLat;
     public TextArea fldContent;
     public TextArea fldPurpose;
-    public DatePicker dpDatePicker;
+    public TextField fldDate;
     public TextField fldPrice;
     public TextField fldAmount;
     public Button btnAddToCheckout;
     public Button btnClear;
-    public TextField cbType;
+    public TextField fldType;
 
     private User currentUser = null;
     private ObservableList<Drug> allDrugs;
-    private ObservableList<Drug> searchedDrugs;
+    private ObservableList<Drug> searchedDrugs = FXCollections.observableArrayList();
     private ApothecaryDAO apothecaryDAO;
     private UserDAO userDAO;
     private ObservableList<String> listOfAdministrationTypes = FXCollections.observableArrayList();
@@ -51,7 +53,8 @@ public class BuyMenuController {
         apothecaryDAO = ApothecaryDAO.getInstance();
         allDrugs = apothecaryDAO.getAllDrugs();
         userDAO = UserDAO.getInstance();
-
+        btnAddToCheckout.setDisable(true);
+        btnClear.setDisable(true);
         fldAmount.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 fldAmount.setText(newValue.replaceAll("[^\\d]", ""));
@@ -80,7 +83,7 @@ public class BuyMenuController {
                 fldContent.setText("");
                 fldPrice.setText("");
                 fldPurpose.setText("");
-                dpDatePicker.setValue(null);
+                fldDate.setText("");
                 imageCurrent.setImage(null);
                 btnAddToCheckout.setDisable(true);
                 btnClear.setDisable(true);
@@ -94,14 +97,18 @@ public class BuyMenuController {
                 fldPrice.setText(Double.valueOf(newDrug.getPrice()).toString());
                 fldPurpose.setText(newDrug.getPurpose());
 
-                dpDatePicker.setValue(newDrug.getExpirationDate());
-                cbType.setText(listOfAdministrationTypes.get(newDrug.getAdministrationTypes().value));
+                fldDate.setText(newDrug.getExpirationDate().toString());
+                fldType.setText(listOfAdministrationTypes.get(newDrug.getAdministrationTypes().value));
 
                 Image imageDrug = null;
-                InputStream inputStream = null;
                 Blob blob = null;
                 try {
                     blob = new SerialBlob(newDrug.getPictureUrl());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                InputStream inputStream = null;
+                try {
                     inputStream = blob.getBinaryStream();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -120,6 +127,7 @@ public class BuyMenuController {
     }
 
     public void actionSearch(ActionEvent actionEvent) {
+        searchedDrugs.clear();
         actionClear(actionEvent);
         String enteredText = fldSearch.getText().toLowerCase(Locale.ROOT);
         searchedDrugs.addAll(allDrugs.stream().filter(drug -> {
@@ -135,7 +143,7 @@ public class BuyMenuController {
             return wordContains;
         }).toList());
 
-        searchedDrugs = (ObservableList<Drug>) searchedDrugs.stream().distinct().toList();
+        searchedDrugs = searchedDrugs.stream().distinct().collect(Collectors.collectingAndThen(toList(), list -> FXCollections.observableArrayList(list)));
         listSearchView.setItems(searchedDrugs);
         listSearchView.refresh();
     }
@@ -161,8 +169,9 @@ public class BuyMenuController {
         fldAmount.setText("");
         fldContent.setText("");
         fldPrice.setText("");
+        fldType.setText("");
         fldPurpose.setText("");
-        dpDatePicker.setValue(null);
+        fldDate.setText("");
         imageCurrent.setImage(null);
         btnAddToCheckout.setDisable(true);
         btnClear.setDisable(true);
@@ -171,6 +180,7 @@ public class BuyMenuController {
     }
 
     public void actionExit(ActionEvent actionEvent) {
-        System.exit(0);
+        Stage stage = (Stage) fldAmount.getScene().getWindow();
+        stage.close();
     }
 }

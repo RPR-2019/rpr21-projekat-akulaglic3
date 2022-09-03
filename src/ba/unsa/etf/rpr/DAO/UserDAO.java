@@ -17,7 +17,7 @@ public class UserDAO {
     private static UserDAO instance = null;
     private Connection connection;
     private PreparedStatement preparedStatement, getUserByUsernameAndPasswordQuery,
-            getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser;
+            getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser,updateUserQuery;
 
     private PreparedStatement getCheckoutItemsForUserQuery, addItemQuery, deleteItemQuery;
 
@@ -44,6 +44,9 @@ public class UserDAO {
                 connection.prepareStatement("INSERT INTO Allergies VALUES ((SELECT MAX(a.id) FROM Allergies a)+1,?,?)");
         getIdForNewUser =
                 connection.prepareStatement("SELECT MAX(u.id)+1 FROM user u");
+        updateUserQuery = connection.prepareStatement("UPDATE User SET name=?, surname=?, username=? " +
+                ", email=?, password=?, doctor_first_name=?, doctor_second_name=? WHERE id=?");
+
 
         getCheckoutItemsForUserQuery =  connection.prepareStatement("SELECT * FROM Item WHERE buyer_id = ?");
         addItemQuery =  connection.prepareStatement("INSERT INTO Item VALUES ((SELECT MAX(i.id) FROM item i)+1,?,?,?)");
@@ -223,6 +226,22 @@ public class UserDAO {
             addItemQuery.setInt(3, newItem.getBuyerId());
             addItemQuery.execute();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUser(User currentUser) {
+        try {
+            updateUserQuery.setString(1, currentUser.getName());
+            updateUserQuery.setString(2, currentUser.getSurname());
+            updateUserQuery.setString(3, currentUser.getUsername());
+            updateUserQuery.setString(4, currentUser.geteMail());
+            updateUserQuery.setString(5, currentUser.getPassword());
+            updateUserQuery.setString(6, currentUser.getDoctorName());
+            updateUserQuery.setString(7, currentUser.getDoctorSurname());
+            updateUserQuery.setInt(8, currentUser.getId());
+            updateUserQuery.execute();
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }

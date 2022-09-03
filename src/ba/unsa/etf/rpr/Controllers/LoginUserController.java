@@ -1,7 +1,6 @@
 package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.UserDAO;
-import ba.unsa.etf.rpr.Models.Apothecary;
 import ba.unsa.etf.rpr.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
