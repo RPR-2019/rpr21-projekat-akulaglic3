@@ -3,7 +3,6 @@ package ba.unsa.etf.rpr.Controllers;
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import ba.unsa.etf.rpr.Exceptions.IllegalAdministrationType;
-import ba.unsa.etf.rpr.Models.Apothecary;
 import ba.unsa.etf.rpr.Models.Drug;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

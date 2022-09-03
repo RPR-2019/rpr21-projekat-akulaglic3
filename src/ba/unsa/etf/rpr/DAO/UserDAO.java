@@ -1,6 +1,10 @@
 package ba.unsa.etf.rpr.DAO;
 
+import ba.unsa.etf.rpr.Models.Drug;
+import ba.unsa.etf.rpr.Models.Item;
 import ba.unsa.etf.rpr.Models.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +18,8 @@ public class UserDAO {
     private Connection connection;
     private PreparedStatement preparedStatement, getUserByUsernameAndPasswordQuery,
             getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser;
+
+    private PreparedStatement getCheckoutItemsForUserQuery;
 
     private UserDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -38,6 +44,8 @@ public class UserDAO {
                 connection.prepareStatement("INSERT INTO Allergies VALUES ((SELECT MAX(a.id) FROM Allergies a)+1,?,?)");
         getIdForNewUser =
                 connection.prepareStatement("SELECT MAX(u.id)+1 FROM user u");
+
+        getCheckoutItemsForUserQuery =  connection.prepareStatement("SELECT * FROM Item WHERE buyer_id = ?");
     }
 
     public static void removeInstance() throws SQLException {
@@ -143,5 +151,35 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ObservableList<Item> getCheckoutItemsForUser(User currentUser) {
+        ObservableList<Item> items = FXCollections.observableArrayList();
+        try {
+            getCheckoutItemsForUserQuery.setInt(1, currentUser.getId());
+            ResultSet resultSet = getCheckoutItemsForUserQuery.executeQuery();
+
+            items = getItemsFromRS(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return items;
+    }
+
+    private ObservableList<Item> getItemsFromRS(ResultSet resultSet) {
+
+        ObservableList<Item> items = FXCollections.observableArrayList();
+        try {
+             while (resultSet.next()){
+                 Drug drug = ApothecaryDAO.getInstance().getDrugById(resultSet.getInt(2));
+                 items.add(new Item(resultSet.getInt(1), drug, resultSet.getInt(3),
+                        resultSet.getInt(4)));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return items;
     }
 }

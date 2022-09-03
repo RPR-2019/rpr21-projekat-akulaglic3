@@ -47,4 +47,14 @@ CREATE TABLE IF NOT EXISTS "Drug" (
 	PRIMARY KEY("id")
 	FOREIGN KEY("apothecary_id") REFERENCES Apothecary("id")
 );
+
+CREATE TABLE IF NOT EXISTS "Item" (
+	"id"	INTEGER,
+	"drug_id"	INTEGER,
+	"amount"	INTEGER,
+	"buyer_id"	INTEGER,
+	PRIMARY KEY("id")
+	FOREIGN KEY("drug_id") REFERENCES Drug("id"),
+	FOREIGN KEY("buyer_id") REFERENCES User("id"),
+);
 COMMIT;

@@ -6,14 +6,32 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.Objects;
 
 public class Item {
+    private int id;
     private Drug drug;
     private SimpleIntegerProperty amount;
-    private SimpleDoubleProperty totalPrice;
+    private int buyerId;
 
-    public Item(Drug drug, Integer amount, Double totalPrice) {
+    public Item(int id, Drug drug, Integer amount, int buyerId) {
+        this.id = id;
         this.drug = drug;
         this.amount = new SimpleIntegerProperty(amount);
-        this.totalPrice = new SimpleDoubleProperty(totalPrice);
+        this.buyerId = buyerId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(int buyerId) {
+        this.buyerId = buyerId;
     }
 
     public Item() {
@@ -39,28 +57,22 @@ public class Item {
         this.amount.set(amount);
     }
 
-    public double getTotalPrice() {
-        return totalPrice.get();
-    }
-
-    public SimpleDoubleProperty totalPriceProperty() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice.set(totalPrice);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        return Objects.equals(drug, item.drug) && Objects.equals(amount, item.amount) && Objects.equals(totalPrice, item.totalPrice);
+        return Objects.equals(drug, item.drug) && Objects.equals(amount, item.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(drug, amount, totalPrice);
+        return Objects.hash(drug, amount);
+    }
+
+    @Override
+    public String toString() {
+        return drug.getNameEnglish() + ", " + drug.getNameLatin() + "/ Price = " + drug.getPrice() +
+                ", Amount =" + amount + ", Total = " + (amount.get()*drug.getPrice());
     }
 }

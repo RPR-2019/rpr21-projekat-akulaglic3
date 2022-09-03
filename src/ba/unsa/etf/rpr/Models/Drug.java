@@ -3,9 +3,7 @@ package ba.unsa.etf.rpr.Models;
 import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import javafx.beans.property.*;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Drug {

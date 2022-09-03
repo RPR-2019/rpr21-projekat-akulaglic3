@@ -12,11 +12,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +22,10 @@ public class ApothecaryDAO {
     private static ApothecaryDAO instance = null;
     private Connection connection;
     private PreparedStatement preparedStatement, getAdminByNameAndPassword, getAdminByUsernameQuery
-            , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery;
+            , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery, getApothecaryByIDQuery;
 
     private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery, deleteDrugQuery,
-     updateDrugQuery;
+     updateDrugQuery, getDrugByIdQuery;
 
     private ApothecaryDAO() throws SQLException {
         String url = "jdbc:sqlite:eHealthDatabase.db";
@@ -48,6 +44,8 @@ public class ApothecaryDAO {
                 connection.prepareStatement("Select * from Admin Where apothecary_name = ?");
         getApothecaryQuery =
                 connection.prepareStatement("Select * from Apothecary Where name = ?");
+        getApothecaryByIDQuery =
+                connection.prepareStatement("Select * from Apothecary Where id = ?");
 
         insertNewApothecaryQuery =
                 connection.prepareStatement("INSERT INTO Apothecary VALUES ((SELECT MAX(a.id) FROM apothecary a)+1,?,?,?,?,?)");
@@ -62,6 +60,8 @@ public class ApothecaryDAO {
         deleteDrugQuery = connection.prepareStatement("Delete from Drug where id = ?");
         updateDrugQuery = connection.prepareStatement("UPDATE Drug SET name_bosnian=?, name_english=?, name_latin=? " +
                 ", content=?, purpose=?, expiration_date=?, administration_type=?, picture=?, price=? WHERE id=?");
+
+        getDrugByIdQuery = connection.prepareStatement("SELECT * FROM DRUG where id = ?");
     }
 
     public static void removeInstance() throws SQLException {
@@ -203,6 +203,21 @@ public class ApothecaryDAO {
         return apothecaryList.get(0);
     }
 
+    public Apothecary getApothecaryByID(int id) {
+        List<Apothecary> apothecaryList = new ArrayList<>();
+        try {
+            getApothecaryByIDQuery.setInt(1, id);
+            ResultSet resultSet = getApothecaryByIDQuery.executeQuery();
+            apothecaryList = getApothecaryListFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (apothecaryList.size()==0){
+            return null;
+        }
+        return apothecaryList.get(0);
+    }
+
     public ObservableList<Drug> getDrugsForApothecary(Apothecary apothecary){
         ObservableList<Drug> drugList = FXCollections.observableArrayList();
         try {
@@ -258,5 +273,22 @@ public class ApothecaryDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Drug getDrugById(int anInt) {
+        ObservableList<Drug> drugObservableList = FXCollections.observableArrayList();
+        try {
+            getDrugByIdQuery.setInt(1, anInt);
+            ResultSet resultSet = getDrugByIdQuery.executeQuery();
+
+            Apothecary apothecary = getApothecaryByID(resultSet.getInt(11));
+            drugObservableList = getDrugsFromRS(resultSet, apothecary);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalAdministrationType e) {
+            e.printStackTrace();
+        }
+
+        return drugObservableList.get(0);
     }
 }

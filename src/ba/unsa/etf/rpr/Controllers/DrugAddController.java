@@ -1,10 +1,7 @@
 package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
-import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import ba.unsa.etf.rpr.Models.Apothecary;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
