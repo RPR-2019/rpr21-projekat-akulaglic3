@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.CheckoutController">
+   <stylesheets>
+      <URL value="@/css/text_field_custom.css" />
+   </stylesheets>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <children>
+      <Label text="%paymentTypeChoose" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <RadioButton fx:id="rbCreditCard" mnemonicParsing="false" text="%paymentCard" GridPane.columnSpan="2" GridPane.rowIndex="1">
+         <toggleGroup>
+            <ToggleGroup fx:id="paymentGroup" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbDelivery" mnemonicParsing="false" text="%delivery" toggleGroup="$paymentGroup" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <TextField fx:id="fldCreditCard" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Label text="%enterCreditCardNumber" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7">
+         <buttons>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#actionConfirm" text="%confirmPayment" />
+          <Button mnemonicParsing="false" onAction="#actionCancel" text="%cancel" />
+         </buttons>
+      </ButtonBar>
+      <Label text="%enterAddress" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <TextField fx:id="fldAddress" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Label text="%phone" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+      <TextField fx:id="fldPhone" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+      <Line endY="170.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="5" GridPane.valignment="CENTER" />
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+   </padding>
+</GridPane>

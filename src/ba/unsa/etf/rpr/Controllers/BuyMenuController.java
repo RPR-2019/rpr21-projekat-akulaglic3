@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -199,5 +200,14 @@ public class BuyMenuController {
     public void actionExit(ActionEvent actionEvent) {
         Stage stage = (Stage) fldAmount.getScene().getWindow();
         stage.close();
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        Scene scene = fldType.getScene();
+        if (!darkMode) {
+            scene.getStylesheets().remove("/css/dark_theme.css");
+        }else {
+            scene.getStylesheets().add("/css/dark_theme.css");
+        }
     }
 }

@@ -12,16 +12,30 @@
         <menus>
           <Menu fx:id="menuFile" mnemonicParsing="false" text="%file">
             <items>
+                  <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
+              <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#actionExit" text="%exit" />
+            </items>
+          </Menu>
+            <Menu fx:id="menuView" mnemonicParsing="false" text="%view">
+              <items>
+                  <Menu fx:id="menuTheme" mnemonicParsing="false" text="%theme">
+                    <items>
+                        <RadioMenuItem fx:id="menuDark" mnemonicParsing="false" onAction="#actionDarkTheme" text="%darkTheme">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="themeGroup" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="menuLight" mnemonicParsing="false" onAction="#actionLightTheme" text="lightTheme" toggleGroup="$themeGroup" />
+                    </items>
+                  </Menu>
                   <Menu fx:id="menuLanguage" mnemonicParsing="false" text="%language">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#actionBosanski" text="Bosanski" />
                         <MenuItem mnemonicParsing="false" onAction="#actionEngleski" text="Engleski" />
                     </items>
                   </Menu>
-                  <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
-              <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#actionExit" text="%exit" />
-            </items>
-          </Menu>
+              </items>
+            </Menu>
           <Menu fx:id="menuHelp" mnemonicParsing="false" text="%help">
             <items>
                   <MenuItem fx:id="menuKeyboard" mnemonicParsing="false" onAction="#actionKeyboardShortcuts" text="%keyboardShortcuts" />

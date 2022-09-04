@@ -5,6 +5,7 @@ import ba.unsa.etf.rpr.Enums.Allergies;
 import ba.unsa.etf.rpr.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
@@ -148,5 +149,14 @@ public class EditAccountUserController {
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        Scene scene = fldDoctorSurname.getScene();
+        if (!darkMode) {
+            scene.getStylesheets().remove("/css/dark_theme.css");
+        }else {
+            scene.getStylesheets().add("/css/dark_theme.css");
+        }
     }
 }

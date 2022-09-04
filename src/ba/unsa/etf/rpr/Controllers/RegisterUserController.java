@@ -42,6 +42,7 @@ public class RegisterUserController {
     public CheckBox cbAntiS;
 
     private UserDAO userDAO;
+    private boolean isDarkModeOn = false;
 
     @FXML
     public void initialize() throws SQLException {
@@ -109,6 +110,8 @@ public class RegisterUserController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
+
+            controller.setDarkMode(isDarkModeOn);
             stage.setTitle("eHealth");
             stage.show();
 
@@ -144,6 +147,9 @@ public class RegisterUserController {
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
+        StartController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+
         Node n = (Node) actionEvent.getSource();
         Stage stage = (Stage) n.getScene().getWindow();
         stage.close();
@@ -168,5 +174,15 @@ public class RegisterUserController {
         if (string.length() < 3 || string.length()>24)
             return false;
        return true;
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        Scene scene = fldDoctorName.getScene();
+        isDarkModeOn = darkMode;
+        if (!darkMode) {
+            scene.getStylesheets().remove("/css/dark_theme.css");
+        }else {
+            scene.getStylesheets().add("/css/dark_theme.css");
+        }
     }
 }

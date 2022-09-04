@@ -37,6 +37,9 @@ public class MainApothecaryController {
     public MenuItem menuKeyboard;
     public MenuItem menuItemHelp;
     public Menu menuLanguage;
+    public Menu menuTheme;
+    public MenuItem menuDark;
+    public MenuItem menuLight;
 
     public Label lbTotalProfit;
     public Label lbNameBos;
@@ -53,6 +56,7 @@ public class MainApothecaryController {
     private ResourceBundle bundle;
     private Apothecary apothecary;
     private ApothecaryDAO apothecaryDAO;
+    private boolean isDarkModeOn = false;
 
     public MainApothecaryController(Apothecary apothecary) {
         this.apothecary = apothecary;
@@ -104,7 +108,10 @@ public class MainApothecaryController {
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         DrugAddController controller = loader.getController();
+
+
         controller.initData(apothecary);
+        controller.setDarkMode(isDarkModeOn);
         stage.setTitle("eHealth");
 
         stage.setOnHiding( windowEvent -> {
@@ -126,7 +133,10 @@ public class MainApothecaryController {
         Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
-        ;
+
+        StartController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+
         Stage stage = (Stage) fldTotalProfit.getScene().getWindow();
         stage.close();
         myStage.show();
@@ -150,6 +160,7 @@ public class MainApothecaryController {
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
+        controller.setDarkMode(isDarkModeOn);
         stage.setOnHiding( windowEvent -> {
             listDrug.setItems(apothecaryDAO.getDrugsForApothecary(apothecary));
             listDrug.refresh();
@@ -188,6 +199,9 @@ public class MainApothecaryController {
         menuItemHelp.setText(bundle.getString("help"));
         menuKeyboard.setText(bundle.getString("keyboardShortcuts"));
         menuLanguage.setText(bundle.getString("language"));
+        menuTheme.setText(bundle.getString("theme"));
+        menuLight.setText(bundle.getString("themeLight"));
+        menuDark.setText(bundle.getString("themeDark"));
     }
 
     public void actionBosanski(ActionEvent actionEvent) {
@@ -200,5 +214,26 @@ public class MainApothecaryController {
         Locale.setDefault(new Locale("en", "US"));
         bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
         changeCurrentLabels();
+    }
+
+    public void actionLightTheme(ActionEvent actionEvent) {
+        isDarkModeOn = false;
+        Scene scene = fldTotalProfit.getScene();
+        scene.getStylesheets().remove("/css/dark_theme.css");
+    }
+    public void actionDarkTheme(ActionEvent actionEvent) {
+        Scene scene = fldTotalProfit.getScene();
+        scene.getStylesheets().add("/css/dark_theme.css");
+        isDarkModeOn = true;
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        Scene scene = fldNameLatin.getScene();
+        isDarkModeOn = darkMode;
+        if (!darkMode) {
+            scene.getStylesheets().remove("/css/dark_theme.css");
+        }else {
+            scene.getStylesheets().add("/css/dark_theme.css");
+        }
     }
 }

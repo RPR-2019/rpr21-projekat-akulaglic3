@@ -36,6 +36,9 @@ public class MainUserController {
     public MenuItem menuKeyboard;
     public MenuItem menuItemHelp;
     public MenuItem menuAbout;
+    public Menu menuTheme;
+    public MenuItem menuDark;
+    public MenuItem menuLight;
 
     public Button btnRemoveDrug;
     public Button btnCheckout;
@@ -53,6 +56,8 @@ public class MainUserController {
     private UserDAO userDAO;
     private ObservableList<Item> checkoutItems;
     private ResourceBundle bundle;
+    private boolean isDarkModeOn = false;
+
     @FXML
     void initialize() throws SQLException {
         listItems.setItems(checkoutItems);
@@ -96,6 +101,10 @@ public class MainUserController {
         Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        StartController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+
         Stage stage = (Stage) tfTotalPrice.getScene().getWindow();
         stage.close();
         myStage.show();
@@ -114,6 +123,8 @@ public class MainUserController {
 
         BuyMenuController controller = loader.getController();
         controller.initUser(currentUser);
+
+        controller.setDarkMode(isDarkModeOn);
         stage.setOnHiding(windowEvent -> {
             ObservableList<Item> itemList = userDAO.getCheckoutItemsForUser(currentUser);
             listItems.setItems(itemList);
@@ -138,6 +149,8 @@ public class MainUserController {
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
+        controller.setDarkMode(isDarkModeOn);
+
         stage.setTitle("eHealth");
         stage.showAndWait();
     }
@@ -157,17 +170,31 @@ public class MainUserController {
         tfTotalPrice.setText(totalAmount.toString());
     }
 
-    public void actionCheckout(ActionEvent actionEvent) {
-        List<Item> itemList = listItems.getItems();
-        for (Item item: itemList ) {
-            apothecaryDAO.addProfit(item.getDrug().getApothecary(), item.getAmount()*item.getDrug().getPrice());
-            userDAO.removeItem(item);
-        }
+    public void actionCheckout(ActionEvent actionEvent) throws IOException {
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/checkout.fxml" ), bundle);
 
-        checkoutItems = userDAO.getCheckoutItemsForUser(currentUser);
-        listItems.setItems(checkoutItems);
-        listItems.refresh();
-        tfTotalPrice.setText("0.0");
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        CheckoutController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+
+        stage.setOnHiding(windowEvent -> {
+            if (controller.getConfirmed()){
+                List<Item> itemList = listItems.getItems();
+                for (Item item: itemList ) {
+                    apothecaryDAO.addProfit(item.getDrug().getApothecary(), item.getAmount()*item.getDrug().getPrice());
+                    userDAO.removeItem(item);
+                }
+
+                checkoutItems = userDAO.getCheckoutItemsForUser(currentUser);
+                listItems.setItems(checkoutItems);
+                listItems.refresh();
+                tfTotalPrice.setText("0.0");
+            }
+        });
+        stage.showAndWait();
     }
 
 
@@ -195,6 +222,9 @@ public class MainUserController {
         menuItemHelp.setText(bundle.getString("help"));
         menuKeyboard.setText(bundle.getString("keyboardShortcuts"));
         menuLanguage.setText(bundle.getString("language"));
+        menuTheme.setText(bundle.getString("theme"));
+        menuLight.setText(bundle.getString("themeLight"));
+        menuDark.setText(bundle.getString("themeDark"));
     }
 
     public void actionBosanski(ActionEvent actionEvent) {
@@ -216,5 +246,26 @@ public class MainUserController {
     }
 
     public void actionAbout(ActionEvent actionEvent) {
+    }
+
+    public void actionLightTheme(ActionEvent actionEvent) {
+        isDarkModeOn = false;
+        Scene scene = tfTotalPrice.getScene();
+        scene.getStylesheets().remove("/css/dark_theme.css");
+    }
+    public void actionDarkTheme(ActionEvent actionEvent) {
+        isDarkModeOn = true;
+        Scene scene = tfTotalPrice.getScene();
+        scene.getStylesheets().add("/css/dark_theme.css");
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        Scene scene = tfTotalPrice.getScene();
+        isDarkModeOn = darkMode;
+        if (!darkMode) {
+            scene.getStylesheets().remove("/css/dark_theme.css");
+        }else {
+            scene.getStylesheets().add("/css/dark_theme.css");
+        }
     }
 }

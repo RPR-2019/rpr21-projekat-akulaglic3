@@ -24,7 +24,7 @@
             <Insets bottom="5.0" left="19.0" right="19.0" top="5.0" />
          </padding>
       </Button>
-      <Label text="%accType2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Label fx:id="lbAccType" text="%accType2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>

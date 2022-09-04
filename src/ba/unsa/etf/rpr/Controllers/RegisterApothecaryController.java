@@ -27,6 +27,7 @@ public class RegisterApothecaryController {
     public TextField fldAddress;
     public TextField fldPhone;
     private ApothecaryDAO apothecaryDAO;
+    private boolean isDarkModeOn = false;
 
     @FXML
     public void initialize() throws SQLException {
@@ -40,6 +41,9 @@ public class RegisterApothecaryController {
         Parent root = loader.load();
         myStage.setTitle("eHealth");
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        StartController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
 
         Node n = (Node) actionEvent.getSource();
         Stage stage = (Stage) n.getScene().getWindow();
@@ -79,6 +83,8 @@ public class RegisterApothecaryController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
+
+            controller.setDarkMode(isDarkModeOn);
             stage.setTitle("eHealth");
             stage.show();
 
@@ -125,5 +131,15 @@ public class RegisterApothecaryController {
         if (string.length() < 3 || string.length()>24)
             return false;
         return true;
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        Scene scene = fldEmail.getScene();
+        isDarkModeOn = darkMode;
+        if (!darkMode) {
+            scene.getStylesheets().remove("/css/dark_theme.css");
+        }else {
+            scene.getStylesheets().add("/css/dark_theme.css");
+        }
     }
 }
