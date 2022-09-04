@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -152,13 +153,29 @@ public class BuyMenuController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         alert.setTitle(bundle.getString("confirmationTitle"));
-        alert.setContentText("confirmationContent");
+        alert.setHeaderText(bundle.getString("confirmationTitle"));
+        alert.setContentText(bundle.getString("confirmationContent"));
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if(!result.isPresent() || result.get() != ButtonType.OK) {
+        if (fldAmount.getText().equals("")){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("errorNoAmountHeader"));
+            errorAlert.setContentText(bundle.getString("errorNoAmountContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if (fldAmount.getText().equals("0")){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("errorInvalidAmountHeader"));
+            errorAlert.setContentText(bundle.getString("errorInvalidAmountContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }
+        else if(result.isPresent() || result.get() == ButtonType.OK) {
             Item newItem = new Item(0, (Drug) listSearchView.getSelectionModel().getSelectedItem(),
                     Integer.parseInt(fldAmount.getText()),currentUser.getId());
             userDAO.addItem(newItem);
+            actionClear(actionEvent);
         }
     }
 

@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.Controllers;
 
+import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import ba.unsa.etf.rpr.DAO.UserDAO;
 import ba.unsa.etf.rpr.Models.Item;
 import ba.unsa.etf.rpr.Models.User;
@@ -10,30 +11,48 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class MainUserController {
-    public Label lbWelcome;
+
     public TextField tfTotalPrice;
     public ListView listItems;
+
+    public Menu menuFile;
+    public Menu menuLanguage;
+    public MenuItem menuLogout;
+    public MenuItem menuExit;
+    public Menu menuHelp;
+    public MenuItem menuKeyboard;
+    public MenuItem menuItemHelp;
+    public MenuItem menuAbout;
+
     public Button btnRemoveDrug;
     public Button btnCheckout;
+    public Button btnLogout;
+    public Button btnExit;
+    public Button btnBuyMenu;
+    public Button btnEditAcc;
 
+    public Label lbWelcome;
+    public Label lbTotalPrice;
+    public Label lbYourCheckout;
+
+    private ApothecaryDAO apothecaryDAO = ApothecaryDAO.getInstance();
     private User currentUser;
     private UserDAO userDAO;
     private ObservableList<Item> checkoutItems;
+    private ResourceBundle bundle;
     @FXML
     void initialize() throws SQLException {
         listItems.setItems(checkoutItems);
@@ -95,10 +114,32 @@ public class MainUserController {
 
         BuyMenuController controller = loader.getController();
         controller.initUser(currentUser);
+        stage.setOnHiding(windowEvent -> {
+            ObservableList<Item> itemList = userDAO.getCheckoutItemsForUser(currentUser);
+            listItems.setItems(itemList);
+            listItems.refresh();
+
+
+            Double totalAmount = Double.valueOf(0);
+            for (Item item: itemList) {
+                totalAmount += item.getAmount()*item.getDrug().getPrice();
+            }
+            tfTotalPrice.setText(totalAmount.toString());
+        });
         stage.showAndWait();
     }
 
-    public void actionEditAccount(ActionEvent actionEvent) {
+    public void actionEditAccount(ActionEvent actionEvent) throws IOException {
+        EditAccountUserController controller = new EditAccountUserController(currentUser);
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/edit_account_user.fxml" ), bundle);
+
+        loader.setController(controller);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        stage.setTitle("eHealth");
+        stage.showAndWait();
     }
 
     public void actionRemoveDrug(ActionEvent actionEvent) {
@@ -117,5 +158,63 @@ public class MainUserController {
     }
 
     public void actionCheckout(ActionEvent actionEvent) {
+        List<Item> itemList = listItems.getItems();
+        for (Item item: itemList ) {
+            apothecaryDAO.addProfit(item.getDrug().getApothecary(), item.getAmount()*item.getDrug().getPrice());
+            userDAO.removeItem(item);
+        }
+
+        checkoutItems = userDAO.getCheckoutItemsForUser(currentUser);
+        listItems.setItems(checkoutItems);
+        listItems.refresh();
+        tfTotalPrice.setText("0.0");
+    }
+
+
+    private void changeCurrentLabels(){
+        lbTotalPrice.setText(bundle.getString("totalPrice"));
+        lbYourCheckout.setText(bundle.getString("yourCheckout"));
+        if (Locale.getDefault().equals(new Locale("bs", "BA"))){
+            lbWelcome.setText("Dobrodošao " + currentUser.getUsername());
+        }else {
+            lbWelcome.setText("Welcome " + currentUser.getUsername());
+        }
+
+        btnRemoveDrug.setText(bundle.getString("removeDrug"));
+        btnCheckout.setText(bundle.getString("checkout"));
+        btnEditAcc.setText(bundle.getString("editAcc"));
+        btnLogout.setText(bundle.getString("logout"));
+        btnExit.setText(bundle.getString("exit"));
+        btnBuyMenu.setText(bundle.getString("buyMenu"));
+
+        menuFile.setText(bundle.getString("file"));
+        menuAbout.setText(bundle.getString("about"));
+        menuExit.setText(bundle.getString("exit"));
+        menuHelp.setText(bundle.getString("help"));
+        menuLogout.setText(bundle.getString("logout"));
+        menuItemHelp.setText(bundle.getString("help"));
+        menuKeyboard.setText(bundle.getString("keyboardShortcuts"));
+        menuLanguage.setText(bundle.getString("language"));
+    }
+
+    public void actionBosanski(ActionEvent actionEvent) {
+        Locale.setDefault(new Locale("bs", "BA"));
+        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        changeCurrentLabels();
+    }
+
+    public void actionEngleski(ActionEvent actionEvent) {
+        Locale.setDefault(new Locale("en", "US"));
+        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        changeCurrentLabels();
+    }
+
+    public void actionKeyboardShortcuts(ActionEvent actionEvent) {
+    }
+
+    public void actionHelp(ActionEvent actionEvent) {
+    }
+
+    public void actionAbout(ActionEvent actionEvent) {
     }
 }

@@ -72,6 +72,6 @@ public class Item {
     @Override
     public String toString() {
         return drug.getNameEnglish() + ", " + drug.getNameLatin() + "/ Price = " + drug.getPrice() +
-                ", Amount =" + amount + ", Total = " + (amount.get()*drug.getPrice());
+                ", Amount =" + amount.get() + ", Total = " + (amount.get()*drug.getPrice());
     }
 }

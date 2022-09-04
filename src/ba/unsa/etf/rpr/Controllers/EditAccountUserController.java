@@ -34,11 +34,12 @@ public class EditAccountUserController {
     public CheckBox cbAntiS;
 
     private User currentUser = null;
-    private List<CheckBox> listOfCheckBox = List.of(cbAspirin, cbAntibiotics, cbNID, cbSulfa, cbChem, cbInsulin, cbAntiS);
+    private List<CheckBox> listOfCheckBox;
     private UserDAO userDAO;
 
     @FXML
     void initialize() throws SQLException {
+        listOfCheckBox = List.of(cbAspirin, cbAntibiotics, cbNID, cbSulfa, cbChem, cbInsulin, cbAntiS);
         userDAO = UserDAO.getInstance();
         fldName.textProperty().bindBidirectional(currentUser.nameProperty());
         fldSurname.textProperty().bindBidirectional(currentUser.surnameProperty());
@@ -48,6 +49,8 @@ public class EditAccountUserController {
         fldDoctorSurname.textProperty().bindBidirectional(currentUser.doctorSurnameProperty());
         fldPassword.textProperty().bindBidirectional(currentUser.passwordProperty());
 
+        fldUsername.setEditable(false);
+        fldUsername.getStyleClass().add("field-grey");
         for (Allergies allergies:currentUser.getAllergiesList()) {
             listOfCheckBox.get(allergies.value).setSelected(true);
         }
@@ -70,20 +73,12 @@ public class EditAccountUserController {
             alertIncorrectHeavy(surname);
         }else if (!isStringCorrectHeavy(bundle.getString("surnameRU"))){
             alertIncorrectHeavy(surname);
-        }else if (!isStringCorrectEasy(username)){
-            alertIncorrectEasy(bundle.getString("usernameRU"));
         }else if (!isStringCorrectEasy(password)){
             alertIncorrectEasy(bundle.getString("passwordRU"));
         }else if (!isStringCorrectHeavy(doctorName)){
             alertIncorrectHeavy(bundle.getString("doctor_nameRU"));
         }else if (!isStringCorrectHeavy(doctorSurname)){
             alertIncorrectHeavy(bundle.getString("doctor_surnameRU"));
-        }else if (userDAO.checkForSameUsername(username)){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText(bundle.getString("errorRegisteringNameTakenHeadline"));
-            errorAlert.setContentText(bundle.getString("errorRegisteringNameTakenContent"));
-            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            errorAlert.showAndWait();
         }else {
             List<Allergies> allergies = new ArrayList<>();
             if (cbAspirin.isSelected()){

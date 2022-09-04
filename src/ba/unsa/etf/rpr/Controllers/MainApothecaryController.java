@@ -8,28 +8,49 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class MainApothecaryController {
-    public MenuItem actionAbout;
-    public MenuItem actionHelp;
+
     public ListView listDrug;
     public TextField fldNameBosnian;
     public TextField fldNameEnglish;
     public TextField fldNameLatin;
     public TextField fldTotalProfit;
+
+    public MenuItem actionAbout;
+    public MenuItem actionHelp;
+    public Menu menuFile;
+    public MenuItem menuAddDrug;
+    public MenuItem menuLogout;
+    public MenuItem menuExit;
+    public Menu menuHelp;
+    public MenuItem menuAbout;
+    public MenuItem menuKeyboard;
+    public MenuItem menuItemHelp;
+    public Menu menuLanguage;
+
+    public Label lbTotalProfit;
+    public Label lbNameBos;
+    public Label lbNameEng;
+    public Label lbNameLat;
+
     public Button btnEditDrug;
     public Button btnDeleteDrug;
+    public Button btnAddDrug;
+    public Button btnLogout;
+    public Button btnExit;
+
+
+    private ResourceBundle bundle;
     private Apothecary apothecary;
     private ApothecaryDAO apothecaryDAO;
 
@@ -143,5 +164,41 @@ public class MainApothecaryController {
         apothecaryDAO.deleteDrug(selectedDrug);
         listDrug.setItems(apothecaryDAO.getDrugsForApothecary(apothecary));
         listDrug.refresh();
+    }
+
+
+    private void changeCurrentLabels(){
+        lbNameBos.setText(bundle.getString("nameBos"));
+        lbNameEng.setText(bundle.getString("nameEng"));
+        lbNameLat.setText(bundle.getString("nameLat"));
+        lbTotalProfit.setText(bundle.getString("totalProfit"));
+
+        btnAddDrug.setText(bundle.getString("addDrug"));
+        btnDeleteDrug.setText(bundle.getString("deleteDrug"));
+        btnEditDrug.setText(bundle.getString("editDrug"));
+        btnLogout.setText(bundle.getString("logout"));
+        btnExit.setText(bundle.getString("exit"));
+
+        menuFile.setText(bundle.getString("file"));
+        menuAbout.setText(bundle.getString("about"));
+        menuAddDrug.setText(bundle.getString("addDrug"));
+        menuExit.setText(bundle.getString("exit"));
+        menuHelp.setText(bundle.getString("help"));
+        menuLogout.setText(bundle.getString("logout"));
+        menuItemHelp.setText(bundle.getString("help"));
+        menuKeyboard.setText(bundle.getString("keyboardShortcuts"));
+        menuLanguage.setText(bundle.getString("language"));
+    }
+
+    public void actionBosanski(ActionEvent actionEvent) {
+        Locale.setDefault(new Locale("bs", "BA"));
+        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        changeCurrentLabels();
+    }
+
+    public void actionEngleski(ActionEvent actionEvent) {
+        Locale.setDefault(new Locale("en", "US"));
+        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        changeCurrentLabels();
     }
 }

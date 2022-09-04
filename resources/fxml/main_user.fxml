@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"> <!--fx:controller="ba.unsa.etf.rpr.Controllers.MainUserController"-->
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="menuFile" mnemonicParsing="false" text="%file">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <Menu fx:id="menuLanguage" mnemonicParsing="false" text="%language">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#actionBosanski" text="Bosanski" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionEngleski" text="Engleski" />
+                    </items>
+                  </Menu>
+                  <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
+              <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#actionExit" text="%exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="menuHelp" mnemonicParsing="false" text="%help">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="menuKeyboard" mnemonicParsing="false" onAction="#actionKeyboardShortcuts" text="%keyboardShortcuts" />
+                  <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#actionHelp" text="%help" />
+              <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#actionAbout" text="%about" />
             </items>
           </Menu>
         </menus>
@@ -30,8 +35,8 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
-            <Button mnemonicParsing="false" onAction="#actionExit" text="%exit" />
+          <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
+            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#actionExit" text="%exit" />
         </buttons>
       </ButtonBar>
    </bottom>
@@ -58,8 +63,8 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionBuyMenu" text="%buyMenu" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionEditAccount" text="%editAcc" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <Button fx:id="btnBuyMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionBuyMenu" text="%buyMenu" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Button fx:id="btnEditAcc" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionEditAccount" text="%editAcc" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
             <Button fx:id="btnRemoveDrug" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionRemoveDrug" text="%removeDrug" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
             <Button fx:id="btnCheckout" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionCheckout" text="%checkout" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
          </children>
@@ -96,11 +101,14 @@
                <font>
                   <Font size="16.0" />
                </font>
+               <GridPane.margin>
+                  <Insets top="7.0" />
+               </GridPane.margin>
             </Label>
-            <Label text="%yourCheckout" GridPane.rowIndex="1" />
+            <Label fx:id="lbYourCheckout" text="%yourCheckout" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <Line endX="200.0" startX="-100.0" GridPane.rowIndex="1" GridPane.rowSpan="6" GridPane.valignment="BASELINE" GridPane.vgrow="ALWAYS" />
             <TextField fx:id="tfTotalPrice" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="11" />
-            <Label text="%totalPrice" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <Label fx:id="lbTotalPrice" text="%totalPrice" GridPane.columnIndex="2" GridPane.rowIndex="11" />
             <ListView fx:id="listItems" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="2" GridPane.rowSpan="9" />
          </children>
       </GridPane>

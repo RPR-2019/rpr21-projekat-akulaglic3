@@ -44,7 +44,7 @@ public class UserDAO {
                 connection.prepareStatement("INSERT INTO Allergies VALUES ((SELECT MAX(a.id) FROM Allergies a)+1,?,?)");
         getIdForNewUser =
                 connection.prepareStatement("SELECT MAX(u.id)+1 FROM user u");
-        updateUserQuery = connection.prepareStatement("UPDATE User SET name=?, surname=?, username=? " +
+        updateUserQuery = connection.prepareStatement("UPDATE User SET first_name=?, second_name=?, username=? " +
                 ", email=?, password=?, doctor_first_name=?, doctor_second_name=? WHERE id=?");
 
 

@@ -22,7 +22,7 @@ public class ApothecaryDAO {
     private static ApothecaryDAO instance = null;
     private Connection connection;
     private PreparedStatement preparedStatement, getAdminByNameAndPassword, getAdminByUsernameQuery
-            , insertNewAdminQuery, getIdForNewApothecary, insertNewApothecaryQuery, getApothecaryQuery, getApothecaryByIDQuery;
+            , insertNewAdminQuery, getIdForNewApothecary, updateProfitQuery, insertNewApothecaryQuery, getApothecaryQuery, getApothecaryByIDQuery;
 
     private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery, deleteDrugQuery,
      updateDrugQuery, getDrugByIdQuery, getAllDrugsQuery;
@@ -53,7 +53,7 @@ public class ApothecaryDAO {
                 connection.prepareStatement("INSERT INTO Admin VALUES ((SELECT MAX(a.id) FROM admin a)+1,?,?)");
         getIdForNewApothecary =
                 connection.prepareStatement("SELECT MAX(a.id)+1 FROM apothecary a");
-
+        updateProfitQuery = connection.prepareStatement("UPDATE Apothecary SET total_profit=? WHERE id=?");
 
         insertDrugQuery =connection.prepareStatement("INSERT INTO Drug VALUES ((SELECT MAX(d.id) FROM drug d)+1,?,?,?,?,?,?,?,?,?, ?)");
         getDrugsForApothecaryQuery = connection.prepareStatement("Select * from Drug where apothecary_id=? ORDER BY name_english");
@@ -321,5 +321,17 @@ public class ApothecaryDAO {
         }
 
         return drugList;
+    }
+
+    public void addProfit(Apothecary apothecary, double v) {
+        Double newTotalProfit = apothecary.getTotalProfit()+v;
+
+        try {
+            updateProfitQuery.setDouble(1, newTotalProfit);
+            updateProfitQuery.setInt(2, apothecary.getId());
+            updateProfitQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

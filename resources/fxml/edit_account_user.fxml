@@ -6,7 +6,11 @@
 
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
-<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.EditAccountUserController">
+<?import java.net.URL?>
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"> <!--fx:controller="ba.unsa.etf.rpr.Controllers.EditAccountUserController"-->
+   <stylesheets>
+      <URL value="@/css/text_field_custom.css" />
+   </stylesheets>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
