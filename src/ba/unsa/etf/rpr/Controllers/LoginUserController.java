@@ -25,6 +25,9 @@ public class LoginUserController {
     public TextField fldUsername;
     private UserDAO userDAO;
     private boolean isDarkModeOn = false;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+
+
 
     @FXML
     public void initialize() throws SQLException {
@@ -38,7 +41,6 @@ public class LoginUserController {
             User user = userDAO.getUser(fldUsername.getText());
 
             MainUserController controller = new MainUserController(user);
-            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
             FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/main_user.fxml" ), bundle);
 
             loader.setController(controller);
@@ -54,7 +56,6 @@ public class LoginUserController {
             currentStage.close();
         }else{
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
             errorAlert.setHeaderText(bundle.getString("errorLoginHeadline"));
             errorAlert.setContentText(bundle.getString("errorLoginContent"));
             errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -64,7 +65,6 @@ public class LoginUserController {
 
     public void actionBack(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/start.fxml" ), bundle);
         Parent root = loader.load();
         myStage.setTitle("eHealth");

@@ -1,18 +1,21 @@
 package ba.unsa.etf.rpr.Controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -44,6 +47,7 @@ public class StartController {
 
     private ResourceBundle bundle;
     private boolean isDarkModeOn = false;
+    private final String TRANSLATION = "Translation";
 
     @FXML
     public void initialize(){
@@ -61,11 +65,8 @@ public class StartController {
         btnCreateAcc.setText(bundle.getString("createAcc"));
         btnExit.setText(bundle.getString("exit"));
 
-        //menuFile.setText(bundle.getString("file"));
         menuAbout.setText(bundle.getString("about"));
-        //menuVew.setText(bundle.getString("view"));
         menuExit.setText(bundle.getString("exit"));
-        //menuHelp.setText(bundle.getString("help"));
         menuItemHelp.setText(bundle.getString("help"));
         menuKeyboard.setText(bundle.getString("keyboardShortcuts"));
         menuLanguage.setText(bundle.getString("language"));
@@ -76,7 +77,7 @@ public class StartController {
 
     public void actionOpenLoginUser(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/login_user.fxml" ), bundle);
         Parent root = loader.load();
         myStage.setTitle("eHealth");
@@ -93,7 +94,7 @@ public class StartController {
 
     public void actionOpenLoginApothecary(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/login_apothecary.fxml" ), bundle);
         Parent root = loader.load();
         myStage.setTitle("eHealth");
@@ -108,7 +109,7 @@ public class StartController {
 
     public void actionRegister(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/option.fxml" ), bundle);
         Parent root = loader.load();
         myStage.setTitle("eHealth");
@@ -149,23 +150,63 @@ public class StartController {
     }
 
     public void actionHelp(ActionEvent actionEvent) {
+        File file = null;
+        if (Locale.getDefault().equals(new Locale("bs", "BA"))){
+            file = new File("resources/pdf/Help Guide - English.pdf");
+        }else{
+            file = new File("resources/pdf/Help Guide - Bosanski.pdf");
+        }
+
+        try {
+            openFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void actionAbout(ActionEvent actionEvent) {
+    public void actionAbout(ActionEvent actionEvent) throws IOException {
+        Stage myStage = new Stage();
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/about.fxml" ), bundle);
+        Parent root = loader.load();
+        myStage.setTitle("eHealth");
+        myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        AboutController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+        myStage.showAndWait();
     }
 
     public void actionBosanski(ActionEvent actionEvent) {
         Locale.setDefault(new Locale("bs", "BA"));
-        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        bundle = ResourceBundle.getBundle(TRANSLATION, Locale.getDefault());
         changeCurrentLabels();
     }
 
     public void actionEnglish(ActionEvent actionEvent) {
         Locale.setDefault(new Locale("en", "US"));
-        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        bundle = ResourceBundle.getBundle(TRANSLATION, Locale.getDefault());
         changeCurrentLabels();
     }
 
     public void actionKeyboardShortcuts(ActionEvent actionEvent) {
+        File file = new File("resources/pdf/Keyboard Shortcuts PDF.pdf");
+        try {
+            openFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openFile(File file) throws Exception {
+        if (Desktop.isDesktopSupported()) {
+            new Thread(() -> {
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 }

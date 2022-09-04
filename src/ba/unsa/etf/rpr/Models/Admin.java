@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Admin {
     private int id;
+    private String apothecaryName, password;
 
     public Admin(int id, String apothecaryName, String password) {
         this.id = id;
@@ -11,7 +12,7 @@ public class Admin {
         this.password = password;
     }
 
-    private String apothecaryName, password;
+
 
     public Admin() {
         this.apothecaryName = "";

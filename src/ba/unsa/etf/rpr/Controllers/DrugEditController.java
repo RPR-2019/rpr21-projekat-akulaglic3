@@ -43,12 +43,12 @@ public class DrugEditController {
     public ChoiceBox cmbAdministrationType;
 
 
-    ResourceBundle bundle = ResourceBundle.getBundle("Translation");
-    private byte[] currentByteArray = null;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+    private byte[] currentByteArray;
     private ObservableList<String> listOfAdministrationTypes = FXCollections.observableArrayList();
-    private ApothecaryDAO apothecaryDao = null;
+    private ApothecaryDAO apothecaryDao;
 
-    private Drug currentDrug = null;
+    private Drug currentDrug;
     @FXML
     public void initialize() throws SQLException {
         apothecaryDao = ApothecaryDAO.getInstance();
@@ -152,6 +152,7 @@ public class DrugEditController {
             currentByteArray = bos.toByteArray();
             currentDrug.setPictureUrl(bos.toByteArray());
 
+            fin.close();
         } catch (IOException ex) {
             Logger.getLogger("ss");
         }
@@ -165,7 +166,6 @@ public class DrugEditController {
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgEasy"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -175,7 +175,6 @@ public class DrugEditController {
     private void alertIncorrectHeavy(String string) {
 
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

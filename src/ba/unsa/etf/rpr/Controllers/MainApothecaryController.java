@@ -8,9 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -20,14 +27,12 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class MainApothecaryController {
 
-    public ListView listDrug;
+    public ListView<Drug> listDrug;
     public TextField fldNameBosnian;
     public TextField fldNameEnglish;
     public TextField fldNameLatin;
     public TextField fldTotalProfit;
-
-    public MenuItem actionAbout;
-    public MenuItem actionHelp;
+    
     public Menu menuFile;
     public MenuItem menuAddDrug;
     public MenuItem menuLogout;
@@ -57,6 +62,8 @@ public class MainApothecaryController {
     private Apothecary apothecary;
     private ApothecaryDAO apothecaryDAO;
     private boolean isDarkModeOn = false;
+    private final String DARK_THEME = "/css/dark_theme.css";
+    private final String E_HEALTH = "eHealth";
 
     public MainApothecaryController(Apothecary apothecary) {
         this.apothecary = apothecary;
@@ -112,7 +119,7 @@ public class MainApothecaryController {
 
         controller.initData(apothecary);
         controller.setDarkMode(isDarkModeOn);
-        stage.setTitle("eHealth");
+        stage.setTitle(E_HEALTH);
 
         stage.setOnHiding( windowEvent -> {
             listDrug.setItems(apothecaryDAO.getDrugsForApothecary(apothecary));
@@ -131,7 +138,7 @@ public class MainApothecaryController {
         ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/start.fxml" ), bundle);
         Parent root = loader.load();
-        myStage.setTitle("eHealth");
+        myStage.setTitle(E_HEALTH);
         myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
         StartController controller = loader.getController();
@@ -142,13 +149,53 @@ public class MainApothecaryController {
         myStage.show();
     }
 
-    public void actionAbout(ActionEvent actionEvent) {
+    public void actionAbout(ActionEvent actionEvent) throws IOException {
+        Stage myStage = new Stage();
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/about.fxml" ), bundle);
+        Parent root = loader.load();
+        myStage.setTitle(E_HEALTH);
+        myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        AboutController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+        myStage.showAndWait();
     }
 
     public void actionKeyboardShortcut(ActionEvent actionEvent) {
+        File file = new File("resources/pdf/Keyboard Shortcuts PDF.pdf");
+        try {
+            openFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openFile(File file) throws Exception {
+        if (Desktop.isDesktopSupported()) {
+            new Thread(() -> {
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 
     public void actionHelp(ActionEvent actionEvent) {
+        File file = null;
+        if (Locale.getDefault().equals(new Locale("bs", "BA"))){
+            file = new File("resources/pdf/Help Guide - English.pdf");
+        }else{
+            file = new File("resources/pdf/Help Guide - Bosanski.pdf");
+        }
+
+        try {
+            openFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void actionEditDrug(ActionEvent actionEvent) throws IOException {
@@ -166,7 +213,7 @@ public class MainApothecaryController {
             listDrug.refresh();
         });
 
-        stage.setTitle("eHealth");
+        stage.setTitle(E_HEALTH);
         stage.showAndWait();
     }
 
@@ -220,11 +267,11 @@ public class MainApothecaryController {
     public void actionLightTheme(ActionEvent actionEvent) {
         isDarkModeOn = false;
         Scene scene = fldTotalProfit.getScene();
-        scene.getStylesheets().remove("/css/dark_theme.css");
+        scene.getStylesheets().remove(DARK_THEME);
     }
     public void actionDarkTheme(ActionEvent actionEvent) {
         Scene scene = fldTotalProfit.getScene();
-        scene.getStylesheets().add("/css/dark_theme.css");
+        scene.getStylesheets().add(DARK_THEME);
         isDarkModeOn = true;
     }
 
@@ -232,9 +279,9 @@ public class MainApothecaryController {
         Scene scene = fldNameLatin.getScene();
         isDarkModeOn = darkMode;
         if (!darkMode) {
-            scene.getStylesheets().remove("/css/dark_theme.css");
+            scene.getStylesheets().remove(DARK_THEME);
         }else {
-            scene.getStylesheets().add("/css/dark_theme.css");
+            scene.getStylesheets().add(DARK_THEME);
         }
     }
 }

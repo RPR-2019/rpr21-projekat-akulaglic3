@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"> <!--fx:controller="ba.unsa.etf.rpr.Controllers.MainUserController"-->
    <top>
       <MenuBar BorderPane.alignment="CENTER">
@@ -19,7 +18,7 @@
                      </accelerator></MenuItem>
               <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#actionExit" text="%exit">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="X" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>
@@ -37,18 +36,27 @@
                         </RadioMenuItem>
                         <RadioMenuItem fx:id="menuLight" mnemonicParsing="false" onAction="#actionLightTheme" text="lightTheme" toggleGroup="$themeGroup">
                            <accelerator>
-                              <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="ANY" code="G" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></RadioMenuItem>
                     </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="T" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                   </Menu>
                   <Menu fx:id="menuLanguage" text="%language">
                     <items>
-                      <MenuItem onAction="#actionBosanski" text="Bosanski" />
+                      <MenuItem onAction="#actionBosanski" text="Bosanski">
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="B" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                         <MenuItem onAction="#actionEngleski" text="Engleski">
                            <accelerator>
                               <KeyCodeCombination alt="ANY" code="E" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                     </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                   </Menu>
               </items>
             </Menu>
@@ -56,15 +64,15 @@
             <items>
                   <MenuItem fx:id="menuKeyboard" onAction="#actionKeyboardShortcuts" text="%keyboardShortcuts">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="K" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="K" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#actionHelp" text="%help">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="H" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
               <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#actionAbout" text="%about">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="A" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>

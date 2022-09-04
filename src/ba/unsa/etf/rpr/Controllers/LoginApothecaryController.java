@@ -26,6 +26,9 @@ public class LoginApothecaryController {
     private ApothecaryDAO apothecaryDAO;
     private boolean isDarkModeOn = false;
 
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+
+
     @FXML
     public void initialize() throws SQLException {
         apothecaryDAO = ApothecaryDAO.getInstance();
@@ -38,7 +41,6 @@ public class LoginApothecaryController {
             Apothecary apothecary = apothecaryDAO.getApothecary(fldApothecaryName.getText());
 
             MainApothecaryController controller = new MainApothecaryController(apothecary);
-            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
             FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/main_apothecary.fxml" ), bundle);
 
             loader.setController(controller);
@@ -54,7 +56,6 @@ public class LoginApothecaryController {
             currentStage.close();
         }else{
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
             errorAlert.setHeaderText(bundle.getString("errorLoginHeadline2"));
             errorAlert.setContentText(bundle.getString("errorLoginContent2"));
             errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -64,7 +65,6 @@ public class LoginApothecaryController {
 
     public void actionBack(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/start.fxml" ), bundle);
         Parent root = loader.load();
         myStage.setTitle("eHealth");

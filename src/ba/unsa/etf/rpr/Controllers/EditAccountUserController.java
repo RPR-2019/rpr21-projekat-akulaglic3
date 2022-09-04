@@ -34,9 +34,11 @@ public class EditAccountUserController {
     public CheckBox cbInsulin;
     public CheckBox cbAntiS;
 
-    private User currentUser = null;
+    private User currentUser;
     private List<CheckBox> listOfCheckBox;
     private UserDAO userDAO;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+
 
     @FXML
     void initialize() throws SQLException {
@@ -66,7 +68,6 @@ public class EditAccountUserController {
         String surname = fldSurname.getText();
         String password = fldPassword.getText(), username = fldUsername.getText();
         String doctorName = fldDoctorName.getText(), doctorSurname = fldDoctorSurname.getText();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
         if (!isStringCorrectEasy(name)){
             alertIncorrectHeavy(bundle.getString("nameRU"));
@@ -83,25 +84,25 @@ public class EditAccountUserController {
         }else {
             List<Allergies> allergies = new ArrayList<>();
             if (cbAspirin.isSelected()){
-                allergies.add(Allergies.aspirinAllergy);
+                allergies.add(Allergies.ASPIRIN_ALLERGY);
             }
             if(cbAntibiotics.isSelected()){
-                allergies.add(Allergies.antibioticsAllergy);
+                allergies.add(Allergies.ANTIBIOTICS_ALLERGY);
             }
             if(cbNID.isSelected()){
-                allergies.add(Allergies.nonsteroidalAntiInflammatoryAllergy);
+                allergies.add(Allergies.NONSTEROIDAL_ANTI_INFLAMMATORY_ALLERGY);
             }
             if(cbSulfa.isSelected()){
-                allergies.add(Allergies.sulfaDrugsAllergy);
+                allergies.add(Allergies.SULFA_DRUGS_ALLERGY);
             }
             if(cbChem.isSelected()){
-                allergies.add(Allergies.chemotherapyDrugsAllergy);
+                allergies.add(Allergies.CHEMOTHERAPY_DRUGS_ALLERGY);
             }
             if(cbInsulin.isSelected()){
-                allergies.add(Allergies.insulinAllergy);
+                allergies.add(Allergies.INSULIN_ALLERGY);
             }
             if(cbAntiS.isSelected()){
-                allergies.add(Allergies.antiseizureDrugsAllergy);
+                allergies.add(Allergies.ANTISEIZURE_DRUGS_ALLERGY);
             }
             currentUser.setAllergiesList(allergies);
             userDAO.updateUser(currentUser);
@@ -135,7 +136,6 @@ public class EditAccountUserController {
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgEasy"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -144,7 +144,6 @@ public class EditAccountUserController {
 
     private void alertIncorrectHeavy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

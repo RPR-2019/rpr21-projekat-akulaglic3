@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserDAO {
-    private static UserDAO instance = null;
+    private static UserDAO instance;
     private Connection connection;
-    private PreparedStatement preparedStatement, getUserByUsernameAndPasswordQuery,
+    private PreparedStatement testStatementQuery, getUserByUsernameAndPasswordQuery,
             getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser,updateUserQuery;
 
     private PreparedStatement getCheckoutItemsForUserQuery, addItemQuery, deleteItemQuery;
@@ -26,10 +26,10 @@ public class UserDAO {
         connection = DriverManager.getConnection(url);
 
         try{
-            preparedStatement = connection.prepareStatement("Select * from user");
+            testStatementQuery = connection.prepareStatement("Select * from user");
         }catch (SQLException e){
             createDatabase();
-            preparedStatement = connection.prepareStatement("Select * from user");
+            testStatementQuery = connection.prepareStatement("Select * from user");
         }
 
         getUserByUsernameAndPasswordQuery =

@@ -39,26 +39,17 @@ public class DrugAddController {
     public Button btnUpload;
     public ImageView idImageDrugs;
     public ChoiceBox cmbAdministrationType;
-    private ApothecaryDAO apothecaryDAO = null;
+    private ApothecaryDAO apothecaryDAO;
 
     private ObservableList<String> listOfAdministrationTypes = FXCollections.observableArrayList();
-
-    private Apothecary apothecary = null;
-    private byte[] person_image = null;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+    private Apothecary apothecary;
+    private byte[] imageOfDrug;
     @FXML
     public void initialize() throws SQLException {
         apothecaryDAO = ApothecaryDAO.getInstance();
         idImageDrugs.getStyleClass().add("image-view-wrapper");
 
-        /*tfPrice.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    tfPrice.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });*/
         tfPrice.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d{0,7}([\\.]\\d{0,2})?")) {
                 tfPrice.setText(oldValue);
@@ -114,8 +105,8 @@ public class DrugAddController {
                 for (int readNum; (readNum = fin.read(buf)) != -1;) {
                     bos.write(buf, 0, readNum);
                 }
-                person_image = bos.toByteArray();
-
+                imageOfDrug = bos.toByteArray();
+                fin.close();
             } catch (IOException ex) {
                 Logger.getLogger("ss");
             }
@@ -123,7 +114,7 @@ public class DrugAddController {
 
     public void actionClear(ActionEvent actionEvent) {
         idImageDrugs.setImage(null);
-        person_image = null;
+        imageOfDrug = null;
     }
 
     public void actionAddDrug(ActionEvent actionEvent) {
@@ -131,7 +122,7 @@ public class DrugAddController {
         String content = taContent.getText(), purpose = taPurpose.getText();
         LocalDate localDate = dpExpDate.getValue();
         Double price = Double.parseDouble(tfPrice.getText());
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+
 
         if (!isStringCorrectHeavy(nameBos)){
             alertIncorrectHeavy(bundle.getString("nameBOSRU"));
@@ -142,7 +133,7 @@ public class DrugAddController {
         }else {
             apothecaryDAO.addDrug(nameBos, nameEng, nameLat,
                     purpose, content, localDate.toString(),
-                    cmbAdministrationType.getSelectionModel().getSelectedIndex(),person_image,price, apothecary.getId());
+                    cmbAdministrationType.getSelectionModel().getSelectedIndex(), imageOfDrug,price, apothecary.getId());
             Stage stage = (Stage) tfNameLat.getScene().getWindow();
             stage.close();
 
@@ -156,7 +147,6 @@ public class DrugAddController {
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgEasy"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -166,7 +156,6 @@ public class DrugAddController {
     private void alertIncorrectHeavy(String string) {
 
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

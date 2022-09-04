@@ -6,13 +6,13 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum Allergies {
-    aspirinAllergy(0),
-    antibioticsAllergy(1),
-    nonsteroidalAntiInflammatoryAllergy(2),
-    sulfaDrugsAllergy(3),
-    chemotherapyDrugsAllergy(4),
-    insulinAllergy(5),
-    antiseizureDrugsAllergy(6);
+    ASPIRIN_ALLERGY(0),
+    ANTIBIOTICS_ALLERGY(1),
+    NONSTEROIDAL_ANTI_INFLAMMATORY_ALLERGY(2),
+    SULFA_DRUGS_ALLERGY(3),
+    CHEMOTHERAPY_DRUGS_ALLERGY(4),
+    INSULIN_ALLERGY(5),
+    ANTISEIZURE_DRUGS_ALLERGY(6);
 
     public final int value;
 

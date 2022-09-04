@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

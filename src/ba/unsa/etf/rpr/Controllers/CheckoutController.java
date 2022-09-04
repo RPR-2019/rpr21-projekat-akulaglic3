@@ -16,6 +16,7 @@ public class CheckoutController {
     public TextField fldAddress;
     public TextField fldCreditCard;
 
+    private final String STYLE_CONSTANT = "field-grey";
     private Boolean confirmed = false;
 
     @FXML
@@ -26,9 +27,9 @@ public class CheckoutController {
         fldPhone.setEditable(false);
         fldCreditCard.setEditable(false);
         fldCreditCard.setText("");
-        fldAddress.getStyleClass().add("field-grey");
-        fldPhone.getStyleClass().add("field-grey");
-        fldCreditCard.getStyleClass().add("field-grey");
+        fldAddress.getStyleClass().add(STYLE_CONSTANT);
+        fldPhone.getStyleClass().add(STYLE_CONSTANT);
+        fldCreditCard.getStyleClass().add(STYLE_CONSTANT);
 
         paymentGroup.selectedToggleProperty().addListener((observableValue, toggle, t1) -> {
             if (t1.equals(rbCreditCard)){
@@ -36,40 +37,23 @@ public class CheckoutController {
                 fldAddress.setEditable(false);
                 fldPhone.setText("");
                 fldPhone.setEditable(false);
-                fldAddress.getStyleClass().add("field-grey");
-                fldPhone.getStyleClass().add("field-grey");
+                fldAddress.getStyleClass().add(STYLE_CONSTANT);
+                fldPhone.getStyleClass().add(STYLE_CONSTANT);
 
                 fldCreditCard.setEditable(true);
-                fldCreditCard.getStyleClass().removeIf(s -> {
-                    return s.equals("field-grey");
-                });
+                fldCreditCard.getStyleClass().removeIf(s -> s.equals(STYLE_CONSTANT));
             }else{
                 fldAddress.setEditable(true);
                 fldPhone.setEditable(true);
-                fldPhone.getStyleClass().removeIf(s -> {
-                    return s.equals("field-grey");
-                });
-                fldAddress.getStyleClass().removeIf(s -> {
-                    return s.equals("field-grey");
-                });
+                fldPhone.getStyleClass().removeIf(s -> s.equals(STYLE_CONSTANT));
+                fldAddress.getStyleClass().removeIf(s -> s.equals(STYLE_CONSTANT));
 
                 fldCreditCard.setEditable(false);
                 fldCreditCard.setText("");
-                fldCreditCard.getStyleClass().add("field-grey");
+                fldCreditCard.getStyleClass().add(STYLE_CONSTANT);
             }
         });
-
-
-        /*rbCreditCard.setOnAction(actionEvent -> {
-            if (rbCreditCard.isSelected()){
-
-            }
-        });
-        rbDelivery.setOnAction(actionEvent -> {
-            if (rbCreditCard.isSelected()){
-
-            }
-        });*/
+        
     }
 
     public void setDarkMode(boolean darkMode) {

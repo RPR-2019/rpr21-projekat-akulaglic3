@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum AdministrationTypes {
-    oralAdministration(0), sublingualAdministration(1), rectalAdministration(2),
-    parenteralAdministration(3);
+    ORAL_ADMINISTRATION(0), SUBLINGUAL_ADMINISTRATION(1), RECTAL_ADMINISTRATION(2),
+    PARENTERAL_ADMINISTRATION(3);
 
     public final int value;
 

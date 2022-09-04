@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ApothecaryDAO {
-    private static ApothecaryDAO instance = null;
+    private static ApothecaryDAO instance;
     private Connection connection;
-    private PreparedStatement preparedStatement, getAdminByNameAndPassword, getAdminByUsernameQuery
+    private PreparedStatement testStatmentQuery, getAdminByNameAndPassword, getAdminByUsernameQuery
             , insertNewAdminQuery, getIdForNewApothecary, updateProfitQuery, insertNewApothecaryQuery, getApothecaryQuery, getApothecaryByIDQuery;
 
     private PreparedStatement insertDrugQuery, getDrugsForApothecaryQuery, deleteDrugQuery,
@@ -32,10 +32,10 @@ public class ApothecaryDAO {
         connection = DriverManager.getConnection(url);
 
         try{
-            preparedStatement = connection.prepareStatement("Select * from drug");
+            testStatmentQuery = connection.prepareStatement("Select * from drug");
         }catch (SQLException e){
             createDatabase();
-            preparedStatement = connection.prepareStatement("Select * from drug");
+            testStatmentQuery = connection.prepareStatement("Select * from drug");
         }
 
         getAdminByNameAndPassword =
@@ -170,9 +170,8 @@ public class ApothecaryDAO {
     }
 
     public void addDrug(String nameBos, String nameEng, String nameLat,
-                        String purpose, String content, String expDate, int selectedIndex, byte[] person_image, Double price, int idApothecary) {
+                        String purpose, String content, String expDate, int selectedIndex, byte[] imageDrug, Double price, int idApothecary) {
         try {
-            Blob blob = new SerialBlob(person_image);
             insertDrugQuery.setString(1,nameBos);
             insertDrugQuery.setString(2,nameEng);
             insertDrugQuery.setString(3,nameLat);
@@ -180,7 +179,7 @@ public class ApothecaryDAO {
             insertDrugQuery.setString(5,purpose);
             insertDrugQuery.setString(6,expDate);
             insertDrugQuery.setInt(7,selectedIndex);
-            insertDrugQuery.setBytes(8,person_image);
+            insertDrugQuery.setBytes(8,imageDrug);
             insertDrugQuery.setDouble(9, price);
             insertDrugQuery.setInt(10,idApothecary);
             insertDrugQuery.execute();
@@ -284,9 +283,7 @@ public class ApothecaryDAO {
 
             Apothecary apothecary = getApothecaryByID(resultSet.getInt(11));
             drugObservableList = getDrugsFromRS(resultSet, apothecary);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IllegalAdministrationType e) {
+        } catch (SQLException | IllegalAdministrationType e) {
             e.printStackTrace();
         }
 

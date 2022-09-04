@@ -11,10 +11,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -57,11 +64,12 @@ public class MainUserController {
     private ObservableList<Item> checkoutItems;
     private ResourceBundle bundle;
     private boolean isDarkModeOn = false;
+    private final String TRANSLATION = "Translation";
 
     @FXML
     void initialize() throws SQLException {
         listItems.setItems(checkoutItems);
-
+        btnRemoveDrug.setDisable(true);
         Double totalAmount = Double.valueOf(0);
         for (Item item: checkoutItems) {
             totalAmount += item.getAmount()*item.getDrug().getPrice();
@@ -104,7 +112,7 @@ public class MainUserController {
 
     public void actionLogout(ActionEvent actionEvent) throws IOException {
         Stage myStage = new Stage();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/start.fxml" ), bundle);
         Parent root = loader.load();
         myStage.setTitle("eHealth");
@@ -123,11 +131,11 @@ public class MainUserController {
     }
 
     public void actionBuyMenu(ActionEvent actionEvent) throws IOException {
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/buy_menu.fxml"), bundle);
 
         Stage stage = new Stage();
-        stage.setScene(new Scene(loader.load(), Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE));
+        stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
 
         BuyMenuController controller = loader.getController();
         controller.initUser(currentUser);
@@ -154,7 +162,7 @@ public class MainUserController {
 
     public void actionEditAccount(ActionEvent actionEvent) throws IOException {
         EditAccountUserController controller = new EditAccountUserController(currentUser);
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/edit_account_user.fxml" ), bundle);
 
         loader.setController(controller);
@@ -183,7 +191,7 @@ public class MainUserController {
     }
 
     public void actionCheckout(ActionEvent actionEvent) throws IOException {
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/checkout.fxml" ), bundle);
 
         Stage stage = new Stage();
@@ -244,23 +252,63 @@ public class MainUserController {
 
     public void actionBosanski(ActionEvent actionEvent) {
         Locale.setDefault(new Locale("bs", "BA"));
-        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        bundle = ResourceBundle.getBundle(TRANSLATION, Locale.getDefault());
         changeCurrentLabels();
     }
 
     public void actionEngleski(ActionEvent actionEvent) {
         Locale.setDefault(new Locale("en", "US"));
-        bundle = ResourceBundle.getBundle("Translation", Locale.getDefault());
+        bundle = ResourceBundle.getBundle(TRANSLATION, Locale.getDefault());
         changeCurrentLabels();
     }
 
     public void actionKeyboardShortcuts(ActionEvent actionEvent) {
+        File file = new File("resources/pdf/Keyboard Shortcuts PDF.pdf");
+        try {
+            openFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openFile(File file) throws Exception {
+        if (Desktop.isDesktopSupported()) {
+            new Thread(() -> {
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 
     public void actionHelp(ActionEvent actionEvent) {
+        File file = null;
+        if (Locale.getDefault().equals(new Locale("bs", "BA"))){
+            file = new File("resources/pdf/Help Guide - English.pdf");
+        }else{
+            file = new File("resources/pdf/Help Guide - Bosanski.pdf");
+        }
+
+        try {
+            openFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void actionAbout(ActionEvent actionEvent) {
+    public void actionAbout(ActionEvent actionEvent) throws IOException {
+        Stage myStage = new Stage();
+        ResourceBundle bundle = ResourceBundle.getBundle(TRANSLATION);
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/about.fxml" ), bundle);
+        Parent root = loader.load();
+        myStage.setTitle("eHealth");
+        myStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+
+        AboutController controller = loader.getController();
+        controller.setDarkMode(isDarkModeOn);
+        myStage.showAndWait();
     }
 
     public void actionLightTheme(ActionEvent actionEvent) {

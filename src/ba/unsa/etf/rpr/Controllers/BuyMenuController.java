@@ -29,7 +29,7 @@ import static java.util.stream.Collectors.toList;
 
 public class BuyMenuController {
     public TextField fldSearch;
-    public ListView listSearchView;
+    public ListView<Drug> listSearchView;
     public ImageView imageCurrent;
     public TextField fldNameEng;
     public TextField fldNameBos;
@@ -43,7 +43,7 @@ public class BuyMenuController {
     public Button btnClear;
     public TextField fldType;
 
-    private User currentUser = null;
+    private User currentUser;
     private ObservableList<Drug> allDrugs;
     private ObservableList<Drug> searchedDrugs = FXCollections.observableArrayList();
     private ApothecaryDAO apothecaryDAO;
@@ -96,7 +96,7 @@ public class BuyMenuController {
                 fldNameBos.setText(newDrug.getNameBosnian());
                 fldAmount.setText("");
                 fldContent.setText(newDrug.getContent());
-                fldPrice.setText(Double.valueOf(newDrug.getPrice()).toString());
+                fldPrice.setText(Double.toString(newDrug.getPrice()));
                 fldPurpose.setText(newDrug.getPurpose());
 
                 fldDate.setText(newDrug.getExpirationDate().toString());
@@ -172,7 +172,7 @@ public class BuyMenuController {
             errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             errorAlert.showAndWait();
         }
-        else if(result.isPresent() || result.get() == ButtonType.OK) {
+        else if(result.isPresent() && result.get() == ButtonType.OK) {
             Item newItem = new Item(0, (Drug) listSearchView.getSelectionModel().getSelectedItem(),
                     Integer.parseInt(fldAmount.getText()),currentUser.getId());
             userDAO.addItem(newItem);

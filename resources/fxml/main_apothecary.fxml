@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-
+<?import javafx.scene.shape.Line?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"> <!-- fx:controller="ba.unsa.etf.rpr.Controllers.MainApothecaryController"-->
    <top>
       <MenuBar BorderPane.alignment="CENTER">
@@ -14,7 +13,7 @@
             <items>
                   <MenuItem fx:id="menuAddDrug" onAction="#actionAddNewDrug" text="%addDrug">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="D" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem fx:id="menuLogout" onAction="#actionLogout" text="%logout">
                      <accelerator>
@@ -22,7 +21,7 @@
                      </accelerator></MenuItem>
               <MenuItem fx:id="menuExit" onAction="#actionClose" text="%exit">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="D" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>
@@ -35,7 +34,7 @@
                               <ToggleGroup fx:id="themeGroup" />
                            </toggleGroup>
                            <accelerator>
-                              <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="ANY" code="G" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </RadioMenuItem>
                         <RadioMenuItem fx:id="menuDark" onAction="#actionDarkTheme" text="%darkTheme" toggleGroup="$themeGroup">
@@ -43,6 +42,9 @@
                               <KeyCodeCombination alt="ANY" code="D" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></RadioMenuItem>
                     </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="T" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                   </Menu>
                   <Menu fx:id="menuLanguage" mnemonicParsing="false" text="%language">
                     <items>
@@ -55,6 +57,9 @@
                               <KeyCodeCombination alt="ANY" code="E" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                     </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                   </Menu>
               </items>
             </Menu>
@@ -62,15 +67,15 @@
             <items>
               <MenuItem fx:id="menuAbout" onAction="#actionAbout" text="%about">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="A" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem fx:id="menuKeyboard" onAction="#actionKeyboardShortcut" text="%keyboardShortcuts">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="K" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="K" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem fx:id="menuItemHelp" onAction="#actionHelp" text="%help">
                      <accelerator>
-                        <KeyCodeCombination alt="ANY" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="ANY" code="H" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>
