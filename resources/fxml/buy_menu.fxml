@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+
 <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.BuyMenuController">
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -40,26 +41,31 @@
       <Label text="%content" GridPane.columnIndex="3" GridPane.rowIndex="5" />
       <Label text="%purpose" GridPane.columnIndex="3" GridPane.rowIndex="8" />
       <Label text="%expDate" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+      <Label text="%price" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+      <Label text="%photo" GridPane.rowIndex="7" />
+      <Label text="%amount" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+
       <ImageView fx:id="imageCurrent" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="8.0" />
-         </GridPane.margin></ImageView>
+         </GridPane.margin>
+      </ImageView>
+
       <TextField fx:id="fldNameEng" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1" />
       <TextField fx:id="fldNameBos" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" />
       <TextField fx:id="fldNameLat" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3" />
       <TextArea fx:id="fldContent" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="3" />
       <TextArea fx:id="fldPurpose" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
-      <Label text="%price" GridPane.columnIndex="3" GridPane.rowIndex="11" />
-      <Label text="%photo" GridPane.rowIndex="7" />
+      <TextField fx:id="fldDate" editable="false" GridPane.columnIndex="5" GridPane.rowIndex="10" />
       <TextField fx:id="fldPrice" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="11" />
-      <Button fx:id="btnAddToCheckout" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionAddToCheckout" text="%addToCheckout" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-      <Label text="%amount" GridPane.columnIndex="3" GridPane.rowIndex="12" />
       <TextField fx:id="fldAmount" promptText="%enterAmount" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+      <TextField fx:id="fldType" editable="false" GridPane.columnIndex="5" GridPane.rowIndex="13" />
+
+      <Button fx:id="btnAddToCheckout" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionAddToCheckout" text="%addToCheckout" GridPane.columnIndex="6" GridPane.rowIndex="1" />
       <Button fx:id="btnClear" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionClear" text="%clear" GridPane.columnIndex="6" GridPane.rowIndex="2" />
       <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionExit" text="%exit" GridPane.columnIndex="6" GridPane.rowIndex="3" />
       <Label text="%administrationType" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="13" />
-      <TextField fx:id="fldType" GridPane.columnIndex="5" GridPane.rowIndex="13" />
-      <TextField fx:id="fldDate" editable="false" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

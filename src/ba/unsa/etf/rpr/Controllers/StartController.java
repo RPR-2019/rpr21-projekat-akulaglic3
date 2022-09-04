@@ -61,11 +61,11 @@ public class StartController {
         btnCreateAcc.setText(bundle.getString("createAcc"));
         btnExit.setText(bundle.getString("exit"));
 
-        menuFile.setText(bundle.getString("file"));
+        //menuFile.setText(bundle.getString("file"));
         menuAbout.setText(bundle.getString("about"));
-        menuVew.setText(bundle.getString("view"));
+        //menuVew.setText(bundle.getString("view"));
         menuExit.setText(bundle.getString("exit"));
-        menuHelp.setText(bundle.getString("help"));
+        //menuHelp.setText(bundle.getString("help"));
         menuItemHelp.setText(bundle.getString("help"));
         menuKeyboard.setText(bundle.getString("keyboardShortcuts"));
         menuLanguage.setText(bundle.getString("language"));
@@ -117,15 +117,13 @@ public class StartController {
         OptionController controller = loader.getController();
         controller.setDarkMode(isDarkModeOn);
 
-        Node n = (Node) actionEvent.getSource();
-        Stage stage = (Stage) n.getScene().getWindow();
+        Stage stage = (Stage) lbAccTypeMsg.getScene().getWindow();
         stage.close();
         myStage.show();
     }
 
     public void actionExit(ActionEvent actionEvent) {
-        Node n = (Node) actionEvent.getSource();
-        Stage stage = (Stage) n.getScene().getWindow();
+        Stage stage = (Stage) lbRegMsg.getScene().getWindow();
         stage.close();
     }
 

@@ -40,12 +40,18 @@ public class CheckoutController {
                 fldPhone.getStyleClass().add("field-grey");
 
                 fldCreditCard.setEditable(true);
-                fldCreditCard.getStyleClass().clear();
+                fldCreditCard.getStyleClass().removeIf(s -> {
+                    return s.equals("field-grey");
+                });
             }else{
                 fldAddress.setEditable(true);
                 fldPhone.setEditable(true);
-                fldAddress.getStyleClass().clear();
-                fldPhone.getStyleClass().clear();
+                fldPhone.getStyleClass().removeIf(s -> {
+                    return s.equals("field-grey");
+                });
+                fldAddress.getStyleClass().removeIf(s -> {
+                    return s.equals("field-grey");
+                });
 
                 fldCreditCard.setEditable(false);
                 fldCreditCard.setText("");

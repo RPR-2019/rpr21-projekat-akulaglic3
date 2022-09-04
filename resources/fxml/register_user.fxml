@@ -37,11 +37,15 @@
         <Label text="%username" GridPane.rowIndex="3" />
         <Label text="%password" GridPane.rowIndex="4" />
         <Label text="%email" GridPane.rowIndex="5" />
+
         <TextField fx:id="fldName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
         <TextField fx:id="fldSurname" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+        <TextField fx:id="fldUsername" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
         <PasswordField fx:id="fldPassword" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-        <TextField fx:id="fldDoctorName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
         <TextField fx:id="fldEmail" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+        <TextField fx:id="fldDoctorName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+        <TextField fx:id="fldDoctorSurname" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+
         <ButtonBar GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9">
             <buttons>
                 <Button defaultButton="true" mnemonicParsing="false" onAction="#actionRegister" text="%register" />
@@ -50,13 +54,12 @@
         </ButtonBar>
       <Label prefHeight="17.0" prefWidth="119.0" text="%dName" GridPane.rowIndex="6" />
       <Label text="%dSurname" GridPane.rowIndex="7" />
-      <TextField fx:id="fldUsername" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <TextField fx:id="fldDoctorSurname" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" />
       <Label text="%allergyMsg" GridPane.columnIndex="3" GridPane.columnSpan="3" />
       <Line endY="170.0" startY="-70.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Line>
+
       <CheckBox fx:id="cbAspirin" mnemonicParsing="false" text="%aspAllergy" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" />

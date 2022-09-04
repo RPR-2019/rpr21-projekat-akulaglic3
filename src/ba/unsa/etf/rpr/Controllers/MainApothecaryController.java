@@ -190,11 +190,12 @@ public class MainApothecaryController {
         btnLogout.setText(bundle.getString("logout"));
         btnExit.setText(bundle.getString("exit"));
 
-        menuFile.setText(bundle.getString("file"));
+        //menuFile.setText(bundle.getString("file"));
         menuAbout.setText(bundle.getString("about"));
         menuAddDrug.setText(bundle.getString("addDrug"));
         menuExit.setText(bundle.getString("exit"));
-        menuHelp.setText(bundle.getString("help"));
+
+        //menuHelp.setText(bundle.getString("help"));
         menuLogout.setText(bundle.getString("logout"));
         menuItemHelp.setText(bundle.getString("help"));
         menuKeyboard.setText(bundle.getString("keyboardShortcuts"));

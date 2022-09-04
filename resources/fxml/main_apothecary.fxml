@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
@@ -9,38 +10,68 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu fx:id="menuFile" text="%file">
+          <Menu fx:id="menuFile" text="_File">
             <items>
-                  <MenuItem fx:id="menuAddDrug" mnemonicParsing="false" onAction="#actionAddNewDrug" text="%addDrug" />
-                  <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
-              <MenuItem fx:id="menuExit" onAction="#actionClose" text="%exit" />
+                  <MenuItem fx:id="menuAddDrug" onAction="#actionAddNewDrug" text="%addDrug">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuLogout" onAction="#actionLogout" text="%logout">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="L" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+              <MenuItem fx:id="menuExit" onAction="#actionClose" text="%exit">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
-            <Menu fx:id="menuView" mnemonicParsing="false" text="%view">
+            <Menu fx:id="menuView" text="_View">
               <items>
                   <Menu fx:id="menuTheme" mnemonicParsing="false" text="%theme">
                     <items>
-                        <RadioMenuItem fx:id="menuLight" mnemonicParsing="false" onAction="#actionLightTheme" text="%lightTheme">
+                        <RadioMenuItem fx:id="menuLight" onAction="#actionLightTheme" text="%lightTheme">
                            <toggleGroup>
                               <ToggleGroup fx:id="themeGroup" />
                            </toggleGroup>
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
                         </RadioMenuItem>
-                        <RadioMenuItem fx:id="menuDark" mnemonicParsing="false" onAction="#actionDarkTheme" text="%darkTheme" toggleGroup="$themeGroup" />
+                        <RadioMenuItem fx:id="menuDark" onAction="#actionDarkTheme" text="%darkTheme" toggleGroup="$themeGroup">
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="D" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></RadioMenuItem>
                     </items>
                   </Menu>
                   <Menu fx:id="menuLanguage" mnemonicParsing="false" text="%language">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#actionBosanski" text="Bosanski" />
-                        <MenuItem mnemonicParsing="false" onAction="#actionEngleski" text="English" />
+                      <MenuItem onAction="#actionBosanski" text="Bosanski">
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="B" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem onAction="#actionEngleski" text="English">
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="E" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                     </items>
                   </Menu>
               </items>
             </Menu>
-          <Menu fx:id="menuHelp" text="%help">
+          <Menu fx:id="menuHelp" text="_Help">
             <items>
-              <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#actionAbout" text="%about" />
-                  <MenuItem fx:id="menuKeyboard" mnemonicParsing="false" onAction="#actionKeyboardShortcut" text="%keyboardShortcuts" />
-                  <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#actionHelp" text="%help" />
+              <MenuItem fx:id="menuAbout" onAction="#actionAbout" text="%about">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuKeyboard" onAction="#actionKeyboardShortcut" text="%keyboardShortcuts">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="K" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemHelp" onAction="#actionHelp" text="%help">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
         </menus>
@@ -91,14 +122,14 @@
             <Label fx:id="lbNameEng" text="%nameEng" GridPane.rowIndex="1" />
             <Label fx:id="lbNameLat" text="%nameLat" GridPane.rowIndex="2" />
             <TextField fx:id="fldNameLatin" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-            <Button fx:id="btnAddDrug" mnemonicParsing="false" onAction="#actionAddNewDrug" text="%addDrug" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
               <buttons>
                   <Button fx:id="btnEditDrug" mnemonicParsing="false" onAction="#actionEditDrug" text="%editDrug" />
                 <Button fx:id="btnDeleteDrug" mnemonicParsing="false" onAction="#actionDeleteDrug" text="%deleteDrug" />
               </buttons>
             </ButtonBar>
-            <Label fx:id="lbTotalProfit" text="%totalProfit" GridPane.rowIndex="6" />
+             <Button fx:id="btnAddDrug" mnemonicParsing="false" onAction="#actionAddNewDrug" text="%addDrug" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+             <Label fx:id="lbTotalProfit" text="%totalProfit" GridPane.rowIndex="6" />
             <TextField fx:id="fldTotalProfit" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
             <Line endX="210.0" endY="5.0" startX="-100.0" startY="5.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
                <GridPane.margin>

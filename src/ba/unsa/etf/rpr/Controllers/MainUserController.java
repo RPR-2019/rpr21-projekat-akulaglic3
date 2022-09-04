@@ -79,13 +79,21 @@ public class MainUserController {
         });
 
         Bindings.isEmpty(listItems.getItems()).addListener(
-                (obs, wasEmpty, isNowEmpty) -> btnCheckout.setDisable(isNowEmpty));
+                (obs, wasEmpty, isNowEmpty) -> {
+                    btnCheckout.setDisable(isNowEmpty);
+                });
 
         if (Locale.getDefault().equals(new Locale("bs", "BA"))){
             lbWelcome.setText("Dobrodošao " + currentUser.getUsername());
         }else {
             lbWelcome.setText("Welcome " + currentUser.getUsername());
         }
+
+        if (listItems.getItems().isEmpty()){
+            btnCheckout.setDisable(true);
+            btnRemoveDrug.setDisable(true);
+        }
+
     }
 
     public MainUserController(User user) throws SQLException {
@@ -138,6 +146,10 @@ public class MainUserController {
             tfTotalPrice.setText(totalAmount.toString());
         });
         stage.showAndWait();
+
+        if (!listItems.getItems().isEmpty()){
+            btnCheckout.setDisable(false);
+        }
     }
 
     public void actionEditAccount(ActionEvent actionEvent) throws IOException {
@@ -192,6 +204,8 @@ public class MainUserController {
                 listItems.setItems(checkoutItems);
                 listItems.refresh();
                 tfTotalPrice.setText("0.0");
+
+                btnCheckout.setDisable(true);
             }
         });
         stage.showAndWait();
@@ -214,10 +228,11 @@ public class MainUserController {
         btnExit.setText(bundle.getString("exit"));
         btnBuyMenu.setText(bundle.getString("buyMenu"));
 
-        menuFile.setText(bundle.getString("file"));
+
+        //menuFile.setText(bundle.getString("file"));
         menuAbout.setText(bundle.getString("about"));
         menuExit.setText(bundle.getString("exit"));
-        menuHelp.setText(bundle.getString("help"));
+        //menuHelp.setText(bundle.getString("help"));
         menuLogout.setText(bundle.getString("logout"));
         menuItemHelp.setText(bundle.getString("help"));
         menuKeyboard.setText(bundle.getString("keyboardShortcuts"));

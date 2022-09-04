@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -10,37 +11,61 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu fx:id="menuFile" mnemonicParsing="false" text="%file">
+          <Menu fx:id="menuFile" text="_File">
             <items>
-                  <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#actionLogout" text="%logout" />
-              <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#actionExit" text="%exit" />
+                  <MenuItem fx:id="menuLogout" onAction="#actionLogout" text="%logout">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="L" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+              <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#actionExit" text="%exit">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
-            <Menu fx:id="menuView" mnemonicParsing="false" text="%view">
+            <Menu fx:id="menuView" text="_View">
               <items>
-                  <Menu fx:id="menuTheme" mnemonicParsing="false" text="%theme">
+                  <Menu fx:id="menuTheme" text="%theme">
                     <items>
                         <RadioMenuItem fx:id="menuDark" mnemonicParsing="false" onAction="#actionDarkTheme" text="%darkTheme">
                            <toggleGroup>
                               <ToggleGroup fx:id="themeGroup" />
                            </toggleGroup>
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="D" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
                         </RadioMenuItem>
-                        <RadioMenuItem fx:id="menuLight" mnemonicParsing="false" onAction="#actionLightTheme" text="lightTheme" toggleGroup="$themeGroup" />
+                        <RadioMenuItem fx:id="menuLight" mnemonicParsing="false" onAction="#actionLightTheme" text="lightTheme" toggleGroup="$themeGroup">
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></RadioMenuItem>
                     </items>
                   </Menu>
-                  <Menu fx:id="menuLanguage" mnemonicParsing="false" text="%language">
+                  <Menu fx:id="menuLanguage" text="%language">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#actionBosanski" text="Bosanski" />
-                        <MenuItem mnemonicParsing="false" onAction="#actionEngleski" text="Engleski" />
+                      <MenuItem onAction="#actionBosanski" text="Bosanski" />
+                        <MenuItem onAction="#actionEngleski" text="Engleski">
+                           <accelerator>
+                              <KeyCodeCombination alt="ANY" code="E" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                     </items>
                   </Menu>
               </items>
             </Menu>
-          <Menu fx:id="menuHelp" mnemonicParsing="false" text="%help">
+          <Menu fx:id="menuHelp" text="_Help">
             <items>
-                  <MenuItem fx:id="menuKeyboard" mnemonicParsing="false" onAction="#actionKeyboardShortcuts" text="%keyboardShortcuts" />
-                  <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#actionHelp" text="%help" />
-              <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#actionAbout" text="%about" />
+                  <MenuItem fx:id="menuKeyboard" onAction="#actionKeyboardShortcuts" text="%keyboardShortcuts">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="K" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#actionHelp" text="%help">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+              <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#actionAbout" text="%about">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
         </menus>

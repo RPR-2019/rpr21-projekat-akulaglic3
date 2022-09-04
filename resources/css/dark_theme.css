@@ -20,7 +20,7 @@
 }
 
 .button{
-    -fx-focus-traversable: false;
+    -fx-focus-traversable: true;
 }
 
 .button:hover{
