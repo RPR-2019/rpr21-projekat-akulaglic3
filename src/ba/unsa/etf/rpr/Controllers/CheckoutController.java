@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.Controllers;
 
+import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
+import ba.unsa.etf.rpr.Jasper.Report;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -7,6 +9,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
+
+import java.sql.SQLException;
 
 public class CheckoutController {
     public ToggleGroup paymentGroup;
@@ -16,6 +21,7 @@ public class CheckoutController {
     public TextField fldAddress;
     public TextField fldCreditCard;
 
+    private int buyerId;
     private final String STYLE_CONSTANT = "field-grey";
     private Boolean confirmed = false;
 
@@ -53,7 +59,6 @@ public class CheckoutController {
                 fldCreditCard.getStyleClass().add(STYLE_CONSTANT);
             }
         });
-        
     }
 
     public void setDarkMode(boolean darkMode) {
@@ -79,5 +84,17 @@ public class CheckoutController {
 
     public Boolean getConfirmed() {
         return confirmed;
+    }
+
+    public void actionPrintReport(ActionEvent actionEvent) {
+        try {
+            new Report(buyerId).showReport(ApothecaryDAO.getInstance().getConnection());
+        } catch (JRException | SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    void initBuyer(int idOfBuyer){
+        buyerId = idOfBuyer;
     }
 }

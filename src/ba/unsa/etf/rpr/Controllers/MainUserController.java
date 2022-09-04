@@ -199,6 +199,7 @@ public class MainUserController {
 
         CheckoutController controller = loader.getController();
         controller.setDarkMode(isDarkModeOn);
+        controller.initBuyer(currentUser.getId());
 
         stage.setOnHiding(windowEvent -> {
             if (controller.getConfirmed()){

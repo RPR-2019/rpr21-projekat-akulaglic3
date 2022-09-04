@@ -331,4 +331,8 @@ public class ApothecaryDAO {
             e.printStackTrace();
         }
     }
+
+    public Connection getConnection() {
+        return connection;
+    }
 }
