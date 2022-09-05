@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import ba.unsa.etf.rpr.Models.Apothecary;
+import ba.unsa.etf.rpr.Utility.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,10 +29,62 @@ public class RegisterApothecaryController {
     public TextField fldPhone;
     private ApothecaryDAO apothecaryDAO;
     private boolean isDarkModeOn = false;
+    private Validator validator;
 
     @FXML
     public void initialize() throws SQLException {
+        validator = Validator.getInstance();
         apothecaryDAO = ApothecaryDAO.getInstance();
+
+        fldEmail.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldEmail.getStyleClass().removeAll("fieldNotCorrect");
+                fldEmail.getStyleClass().add("fieldCorrect");
+            } else {
+                fldEmail.getStyleClass().removeAll("fieldCorrect");
+                fldEmail.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldAddress.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldAddress.getStyleClass().removeAll("fieldNotCorrect");
+                fldAddress.getStyleClass().add("fieldCorrect");
+            } else {
+                fldAddress.getStyleClass().removeAll("fieldCorrect");
+                fldAddress.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldPassword.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldPassword.getStyleClass().removeAll("fieldNotCorrect");
+                fldPassword.getStyleClass().add("fieldCorrect");
+            } else {
+                fldPassword.getStyleClass().removeAll("fieldCorrect");
+                fldPassword.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+
+
+
+        fldName.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldName.getStyleClass().removeAll("fieldNotCorrect");
+                fldName.getStyleClass().add("fieldCorrect");
+            } else {
+                fldName.getStyleClass().removeAll("fieldCorrect");
+                fldName.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+
+        fldPhone.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isPhoneCorrect(newString)) {
+                fldPhone.getStyleClass().removeAll("fieldNotCorrect");
+                fldPhone.getStyleClass().add("fieldCorrect");
+            } else {
+                fldPhone.getStyleClass().removeAll("fieldCorrect");
+                fldPhone.getStyleClass().add("fieldNotCorrect");
+            }
+        });
     }
 
     public void actionBack(ActionEvent actionEvent) throws IOException {
@@ -52,19 +105,21 @@ public class RegisterApothecaryController {
     }
 
     public void actionRegister(ActionEvent actionEvent) throws IOException {
-        String name = fldName.getCharacters().toString();
-        String password = fldPassword.getText(), address = fldAddress.getCharacters().toString();
-        String phone = fldPhone.getCharacters().toString();
+        String name = fldName.getText();
+        String password = fldPassword.getText(), address = fldAddress.getText();
+        String phone = fldPhone.getText();
         ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
-        if (!isStringCorrectHeavy(name)){
-            alertIncorectHeavy(bundle.getString("nameRU"));
-        }else if (!isStringCorrectEasy(password)){
+        if (!validator.isStringCorrectHeavy(name)){
+            alertIncorrectHeavy(bundle.getString("nameRU"));
+        }else if (!validator.isStringCorrectEasy(password)){
             alertIncorrectEasy(bundle.getString("passwordRU"));
-        }else if (!isStringCorrectEasy(address)){
+        }else if (!validator.isStringCorrectEasy(fldEmail.getText())){
+            alertIncorrectEasy(bundle.getString("emailRU"));
+        }else if (!validator.isStringCorrectEasy(address)){
             alertIncorrectEasy(bundle.getString("addressRU"));
-        }else if (!isStringCorrectEasy(phone)){
-            alertIncorrectEasy(bundle.getString("phoneRU"));
+        }else if (!validator.isPhoneCorrect(phone)){
+            alertIncorrectPhone();
         }else if (apothecaryDAO.checkForSameAdminName(name)){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText(bundle.getString("errorRegisteringNameTakenHeadline2"));
@@ -94,6 +149,15 @@ public class RegisterApothecaryController {
         }
     }
 
+    private void alertIncorrectPhone() {
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        errorAlert.setHeaderText(bundle.getString("incorrectPhoneHeader"));
+        errorAlert.setContentText(bundle.getString("incorrectPhoneContent"));
+        errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        errorAlert.showAndWait();
+    }
+
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -104,7 +168,7 @@ public class RegisterApothecaryController {
         errorAlert.showAndWait();
     }
 
-    private void alertIncorectHeavy(String string) {
+    private void alertIncorrectHeavy(String string) {
 
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         ResourceBundle bundle = ResourceBundle.getBundle("Translation");
@@ -112,25 +176,6 @@ public class RegisterApothecaryController {
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
-    }
-    private boolean isStringCorrectHeavy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        Boolean charsAreAcceptable = true;
-
-        for (int i = 0; i < string.length(); i++) {
-            if (!((string.charAt(i)>='a' && string.charAt(i)<='z') ||
-                    (string.charAt(i)>='A' && string.charAt(i)<= 'Z'))){
-                charsAreAcceptable = false;
-            }
-        }
-        return charsAreAcceptable;
-    }
-
-    private boolean isStringCorrectEasy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        return true;
     }
 
     public void setDarkMode(boolean darkMode) {

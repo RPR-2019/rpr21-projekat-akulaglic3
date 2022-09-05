@@ -2,6 +2,9 @@ package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.UserDAO;
 import ba.unsa.etf.rpr.Models.User;
+import ba.unsa.etf.rpr.Utility.Validator;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,10 +46,78 @@ public class RegisterUserController {
 
     private UserDAO userDAO;
     private boolean isDarkModeOn = false;
+    private Validator validator;
 
     @FXML
     public void initialize() throws SQLException {
         userDAO = UserDAO.getInstance();
+        validator = Validator.getInstance();
+
+        fldName.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldName.getStyleClass().removeAll("fieldNotCorrect");
+                fldName.getStyleClass().add("fieldCorrect");
+            } else {
+                fldName.getStyleClass().removeAll("fieldCorrect");
+                fldName.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldSurname.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldSurname.getStyleClass().removeAll("fieldNotCorrect");
+                fldSurname.getStyleClass().add("fieldCorrect");
+            } else {
+                fldSurname.getStyleClass().removeAll("fieldCorrect");
+                fldSurname.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldDoctorName.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldDoctorName.getStyleClass().removeAll("fieldNotCorrect");
+                fldDoctorName.getStyleClass().add("fieldCorrect");
+            } else {
+                fldDoctorName.getStyleClass().removeAll("fieldCorrect");
+                fldDoctorName.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldDoctorSurname.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldDoctorSurname.getStyleClass().removeAll("fieldNotCorrect");
+                fldDoctorSurname.getStyleClass().add("fieldCorrect");
+            } else {
+                fldDoctorSurname.getStyleClass().removeAll("fieldCorrect");
+                fldDoctorSurname.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+
+
+        fldUsername.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldUsername.getStyleClass().removeAll("fieldNotCorrect");
+                fldUsername.getStyleClass().add("fieldCorrect");
+            } else {
+                fldUsername.getStyleClass().removeAll("fieldCorrect");
+                fldUsername.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldPassword.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldPassword.getStyleClass().removeAll("fieldNotCorrect");
+                fldPassword.getStyleClass().add("fieldCorrect");
+            } else {
+                fldPassword.getStyleClass().removeAll("fieldCorrect");
+                fldPassword.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldEmail.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldEmail.getStyleClass().removeAll("fieldNotCorrect");
+                fldEmail.getStyleClass().add("fieldCorrect");
+            } else {
+                fldEmail.getStyleClass().removeAll("fieldCorrect");
+                fldEmail.getStyleClass().add("fieldNotCorrect");
+            }
+        });
     }
 
     public void actionRegister(ActionEvent actionEvent) throws SQLException, IOException {
@@ -56,19 +127,17 @@ public class RegisterUserController {
         String doctorName = fldDoctorName.getText(), doctorSurname = fldDoctorSurname.getText();
         ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
-        if (!isStringCorrectEasy(name)){
+        if (!validator.isStringCorrectHeavy(name)){
             alertIncorrectHeavy(bundle.getString("nameRU"));
-        }else if (!isStringCorrectHeavy(surname)){
-            alertIncorrectHeavy(surname);
-        }else if (!isStringCorrectHeavy(bundle.getString("surnameRU"))){
-            alertIncorrectHeavy(surname);
-        }else if (!isStringCorrectEasy(username)){
+        }else if (!validator.isStringCorrectHeavy(surname)){
+            alertIncorrectHeavy(bundle.getString("surnameRU"));
+        }else if (!validator.isStringCorrectEasy(username)){
             alertIncorrectEasy(bundle.getString("usernameRU"));
-        }else if (!isStringCorrectEasy(password)){
+        }else if (!validator.isStringCorrectEasy(password)){
             alertIncorrectEasy(bundle.getString("passwordRU"));
-        }else if (!isStringCorrectHeavy(doctorName)){
+        }else if (!validator.isStringCorrectHeavy(doctorName)){
             alertIncorrectHeavy(bundle.getString("doctor_nameRU"));
-        }else if (!isStringCorrectHeavy(doctorSurname)){
+        }else if (!validator.isStringCorrectHeavy(doctorSurname)){
             alertIncorrectHeavy(bundle.getString("doctor_surnameRU"));
         }else if (userDAO.checkForSameUsername(username)){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -156,25 +225,7 @@ public class RegisterUserController {
         myStage.show();
     }
 
-    private boolean isStringCorrectHeavy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        Boolean charsAreAcceptable = true;
 
-        for (int i = 0; i < string.length(); i++) {
-            if (!((string.charAt(i)>='a' && string.charAt(i)<='z') ||
-                    (string.charAt(i)>='A' && string.charAt(i)<= 'Z'))){
-                charsAreAcceptable = false;
-            }
-        }
-        return charsAreAcceptable;
-    }
-
-    private boolean isStringCorrectEasy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-       return true;
-    }
 
     public void setDarkMode(boolean darkMode) {
         Scene scene = fldDoctorName.getScene();

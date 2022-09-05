@@ -2,16 +2,20 @@ package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import ba.unsa.etf.rpr.Jasper.Report;
+import ba.unsa.etf.rpr.Utility.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JRException;
 
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class CheckoutController {
     public ToggleGroup paymentGroup;
@@ -20,13 +24,15 @@ public class CheckoutController {
     public TextField fldPhone;
     public TextField fldAddress;
     public TextField fldCreditCard;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
     private int buyerId;
     private final String STYLE_CONSTANT = "field-grey";
     private Boolean confirmed = false;
-
+    private Validator validator;
     @FXML
     void initialize(){
+        validator = Validator.getInstance();
         fldAddress.setText("");
         fldAddress.setEditable(false);
         fldPhone.setText("");
@@ -71,9 +77,29 @@ public class CheckoutController {
     }
 
     public void actionConfirm(ActionEvent actionEvent) {
+        if (!rbDelivery.isSelected() && !rbCreditCard.isSelected()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("noPaymentPlanSelectionHeader"));
+            errorAlert.setContentText(bundle.getString("noPaymentPlanSelectionContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if (rbCreditCard.isSelected() && fldCreditCard.getText().equals("")){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("enterCreditCardHeader"));
+            errorAlert.setContentText(bundle.getString("enterCreditCardContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if (rbDelivery.isSelected() && (fldPhone.getText().equals("") || fldAddress.getText().equals(""))){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("enterPAHeader"));
+            errorAlert.setContentText(bundle.getString("enterPAContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else{
         confirmed = true;
         Stage stage = (Stage) fldAddress.getScene().getWindow();
         stage.close();
+        }
     }
 
     public void actionCancel(ActionEvent actionEvent) {

@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.Controllers;
 import ba.unsa.etf.rpr.DAO.UserDAO;
 import ba.unsa.etf.rpr.Enums.Allergies;
 import ba.unsa.etf.rpr.Models.User;
+import ba.unsa.etf.rpr.Utility.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -38,7 +39,7 @@ public class EditAccountUserController {
     private List<CheckBox> listOfCheckBox;
     private UserDAO userDAO;
     private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
-
+    private Validator validator;
 
     @FXML
     void initialize() throws SQLException {
@@ -57,6 +58,66 @@ public class EditAccountUserController {
         for (Allergies allergies:currentUser.getAllergiesList()) {
             listOfCheckBox.get(allergies.value).setSelected(true);
         }
+
+
+        validator = Validator.getInstance();
+
+        fldName.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldName.getStyleClass().removeAll("fieldNotCorrect");
+                fldName.getStyleClass().add("fieldCorrect");
+            } else {
+                fldName.getStyleClass().removeAll("fieldCorrect");
+                fldName.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldSurname.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldSurname.getStyleClass().removeAll("fieldNotCorrect");
+                fldSurname.getStyleClass().add("fieldCorrect");
+            } else {
+                fldSurname.getStyleClass().removeAll("fieldCorrect");
+                fldSurname.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldDoctorName.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldDoctorName.getStyleClass().removeAll("fieldNotCorrect");
+                fldDoctorName.getStyleClass().add("fieldCorrect");
+            } else {
+                fldDoctorName.getStyleClass().removeAll("fieldCorrect");
+                fldDoctorName.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldDoctorSurname.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                fldDoctorSurname.getStyleClass().removeAll("fieldNotCorrect");
+                fldDoctorSurname.getStyleClass().add("fieldCorrect");
+            } else {
+                fldDoctorSurname.getStyleClass().removeAll("fieldCorrect");
+                fldDoctorSurname.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+
+
+        fldPassword.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldPassword.getStyleClass().removeAll("fieldNotCorrect");
+                fldPassword.getStyleClass().add("fieldCorrect");
+            } else {
+                fldPassword.getStyleClass().removeAll("fieldCorrect");
+                fldPassword.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        fldEmail.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectEasy(newString)) {
+                fldEmail.getStyleClass().removeAll("fieldNotCorrect");
+                fldEmail.getStyleClass().add("fieldCorrect");
+            } else {
+                fldEmail.getStyleClass().removeAll("fieldCorrect");
+                fldEmail.getStyleClass().add("fieldNotCorrect");
+            }
+        });
     }
 
     public EditAccountUserController(User user){
@@ -66,20 +127,18 @@ public class EditAccountUserController {
     public void actionSave(ActionEvent actionEvent) {
         String name = fldName.getText();
         String surname = fldSurname.getText();
-        String password = fldPassword.getText(), username = fldUsername.getText();
+        String password = fldPassword.getText();
         String doctorName = fldDoctorName.getText(), doctorSurname = fldDoctorSurname.getText();
 
-        if (!isStringCorrectEasy(name)){
+        if (!validator.isStringCorrectHeavy(name)){
             alertIncorrectHeavy(bundle.getString("nameRU"));
-        }else if (!isStringCorrectHeavy(surname)){
-            alertIncorrectHeavy(surname);
-        }else if (!isStringCorrectHeavy(bundle.getString("surnameRU"))){
-            alertIncorrectHeavy(surname);
-        }else if (!isStringCorrectEasy(password)){
+        }else if (!validator.isStringCorrectHeavy(surname)){
+            alertIncorrectHeavy(bundle.getString("surnameRU"));
+        }else if (!validator.isStringCorrectEasy(password)){
             alertIncorrectEasy(bundle.getString("passwordRU"));
-        }else if (!isStringCorrectHeavy(doctorName)){
+        }else if (!validator.isStringCorrectHeavy(doctorName)){
             alertIncorrectHeavy(bundle.getString("doctor_nameRU"));
-        }else if (!isStringCorrectHeavy(doctorSurname)){
+        }else if (!validator.isStringCorrectHeavy(doctorSurname)){
             alertIncorrectHeavy(bundle.getString("doctor_surnameRU"));
         }else {
             List<Allergies> allergies = new ArrayList<>();
@@ -114,25 +173,6 @@ public class EditAccountUserController {
         stage.close();
     }
 
-    private boolean isStringCorrectHeavy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        Boolean charsAreAcceptable = true;
-
-        for (int i = 0; i < string.length(); i++) {
-            if (!((string.charAt(i)>='a' && string.charAt(i)<='z') ||
-                    (string.charAt(i)>='A' && string.charAt(i)<= 'Z'))){
-                charsAreAcceptable = false;
-            }
-        }
-        return charsAreAcceptable;
-    }
-
-    private boolean isStringCorrectEasy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        return true;
-    }
 
     private void alertIncorrectEasy(String string) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);

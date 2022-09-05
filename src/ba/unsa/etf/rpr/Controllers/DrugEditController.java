@@ -4,6 +4,7 @@ import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import ba.unsa.etf.rpr.Exceptions.IllegalAdministrationType;
 import ba.unsa.etf.rpr.Models.Drug;
+import ba.unsa.etf.rpr.Utility.Validator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +26,7 @@ import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -49,6 +51,7 @@ public class DrugEditController {
     private ApothecaryDAO apothecaryDao;
 
     private Drug currentDrug;
+    private Validator validator;
     @FXML
     public void initialize() throws SQLException {
         apothecaryDao = ApothecaryDAO.getInstance();
@@ -83,6 +86,36 @@ public class DrugEditController {
         idImageDrugs.setImage(imageDrug);
 
         currentByteArray = currentDrug.getPictureUrl();
+
+        validator = Validator.getInstance();
+
+        tfNameBos.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                tfNameBos.getStyleClass().removeAll("fieldNotCorrect");
+                tfNameBos.getStyleClass().add("fieldCorrect");
+            } else {
+                tfNameBos.getStyleClass().removeAll("fieldCorrect");
+                tfNameBos.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        tfNameLat.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                tfNameLat.getStyleClass().removeAll("fieldNotCorrect");
+                tfNameLat.getStyleClass().add("fieldCorrect");
+            } else {
+                tfNameLat.getStyleClass().removeAll("fieldCorrect");
+                tfNameLat.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        tfNameEng.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                tfNameEng.getStyleClass().removeAll("fieldNotCorrect");
+                tfNameEng.getStyleClass().add("fieldCorrect");
+            } else {
+                tfNameEng.getStyleClass().removeAll("fieldCorrect");
+                tfNameEng.getStyleClass().add("fieldNotCorrect");
+            }
+        });
     }
 
     public DrugEditController(Drug drug){
@@ -90,12 +123,37 @@ public class DrugEditController {
     }
 
     public void actionSaveDrug(ActionEvent actionEvent) throws IllegalAdministrationType {
-        if (!isStringCorrectHeavy(currentDrug.getNameBosnian())){
+        if (!validator.isStringCorrectHeavy(tfNameBos.getText())){
             alertIncorrectHeavy(bundle.getString("nameBOSRU"));
-        }else if (!isStringCorrectHeavy(currentDrug.getNameEnglish())){
+        }else if (!validator.isStringCorrectHeavy(tfNameEng.getText())){
             alertIncorrectHeavy(bundle.getString("nameENGRU"));
-        }else if (!isStringCorrectHeavy(currentDrug.getNameLatin())){
+        }else if (!validator.isStringCorrectHeavy(tfNameLat.getText())){
             alertIncorrectHeavy(bundle.getString("nameLATRU"));
+        }else if(dpExpDate.getValue() == null){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidDateHeader"));
+            errorAlert.setContentText(bundle.getString("invalidDateContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }
+        else if(Objects.equals(tfPrice.getText(), "")){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidPriceHeader"));
+            errorAlert.setContentText(bundle.getString("invalidPriceContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if(currentByteArray == null || currentByteArray.length == 0){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidImageHeader"));
+            errorAlert.setContentText(bundle.getString("invalidImageContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if(cmbAdministrationType.getSelectionModel().getSelectedItem()==null){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidBoxHeader"));
+            errorAlert.setContentText(bundle.getString("invalidBoxContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
         }else {
             currentDrug.setAdministrationTypes(AdministrationTypes.valueOf(cmbAdministrationType.getSelectionModel().getSelectedIndex()));
             currentDrug.setExpirationDate(dpExpDate.getValue());
@@ -164,13 +222,6 @@ public class DrugEditController {
     }
 
 
-    private void alertIncorrectEasy(String string) {
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText(bundle.getString("invalid") + " " + string + "!");
-        errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgEasy"));
-        errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        errorAlert.showAndWait();
-    }
 
     private void alertIncorrectHeavy(String string) {
 
@@ -180,25 +231,7 @@ public class DrugEditController {
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
     }
-    private boolean isStringCorrectHeavy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        Boolean charsAreAcceptable = true;
 
-        for (int i = 0; i < string.length(); i++) {
-            if (!((string.charAt(i)>='a' && string.charAt(i)<='z') ||
-                    (string.charAt(i)>='A' && string.charAt(i)<= 'Z'))){
-                charsAreAcceptable = false;
-            }
-        }
-        return charsAreAcceptable;
-    }
-
-    private boolean isStringCorrectEasy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        return true;
-    }
 
     public void setDarkMode(boolean darkMode) {
         Scene scene = tfPrice.getScene();

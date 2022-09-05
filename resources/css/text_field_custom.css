@@ -1,3 +1,9 @@
 .field-grey {
     -fx-background-color: lightgrey;
 }
+.fieldCorrect {
+-fx-control-inner-background: greenyellow;
+}
+.fieldNotCorrect {
+-fx-control-inner-background: lightpink;
+}

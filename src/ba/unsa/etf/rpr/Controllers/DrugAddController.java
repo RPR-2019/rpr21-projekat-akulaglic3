@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr.Controllers;
 
 import ba.unsa.etf.rpr.DAO.ApothecaryDAO;
 import ba.unsa.etf.rpr.Models.Apothecary;
+import ba.unsa.etf.rpr.Utility.Validator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -45,6 +47,8 @@ public class DrugAddController {
     private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
     private Apothecary apothecary;
     private byte[] imageOfDrug;
+    private Validator validator;
+
     @FXML
     public void initialize() throws SQLException {
         apothecaryDAO = ApothecaryDAO.getInstance();
@@ -68,6 +72,37 @@ public class DrugAddController {
             listOfAdministrationTypes.add("Parenteral");
         }
         cmbAdministrationType.setItems(listOfAdministrationTypes);
+
+
+        validator = Validator.getInstance();
+
+        tfNameBos.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                tfNameBos.getStyleClass().removeAll("fieldNotCorrect");
+                tfNameBos.getStyleClass().add("fieldCorrect");
+            } else {
+                tfNameBos.getStyleClass().removeAll("fieldCorrect");
+                tfNameBos.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        tfNameLat.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                tfNameLat.getStyleClass().removeAll("fieldNotCorrect");
+                tfNameLat.getStyleClass().add("fieldCorrect");
+            } else {
+                tfNameLat.getStyleClass().removeAll("fieldCorrect");
+                tfNameLat.getStyleClass().add("fieldNotCorrect");
+            }
+        });
+        tfNameEng.textProperty().addListener((obs, oldString, newString) -> {
+            if (validator.isStringCorrectHeavy(newString)) {
+                tfNameEng.getStyleClass().removeAll("fieldNotCorrect");
+                tfNameEng.getStyleClass().add("fieldCorrect");
+            } else {
+                tfNameEng.getStyleClass().removeAll("fieldCorrect");
+                tfNameEng.getStyleClass().add("fieldNotCorrect");
+            }
+        });
     }
 
     @FXML
@@ -121,16 +156,42 @@ public class DrugAddController {
         String nameBos = tfNameBos.getText(), nameLat = tfNameLat.getText(), nameEng = tfNameEng.getText();
         String content = taContent.getText(), purpose = taPurpose.getText();
         LocalDate localDate = dpExpDate.getValue();
-        Double price = Double.parseDouble(tfPrice.getText());
 
 
-        if (!isStringCorrectHeavy(nameBos)){
+
+        if (!validator.isStringCorrectHeavy(nameBos)){
             alertIncorrectHeavy(bundle.getString("nameBOSRU"));
-        }else if (!isStringCorrectHeavy(nameEng)){
+        }else if (!validator.isStringCorrectHeavy(nameEng)){
             alertIncorrectHeavy(bundle.getString("nameENGRU"));
-        }else if (!isStringCorrectHeavy(nameLat)){
+        }else if (!validator.isStringCorrectHeavy(nameLat)){
             alertIncorrectHeavy(bundle.getString("nameLATRU"));
+        }else if(localDate == null){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidDateHeader"));
+            errorAlert.setContentText(bundle.getString("invalidDateContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }
+        else if(Objects.equals(tfPrice.getText(), "")){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidPriceHeader"));
+            errorAlert.setContentText(bundle.getString("invalidPriceContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if(imageOfDrug == null || imageOfDrug.length == 0){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidImageHeader"));
+            errorAlert.setContentText(bundle.getString("invalidImageContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
+        }else if(cmbAdministrationType.getSelectionModel().getSelectedItem()==null){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText(bundle.getString("invalidBoxHeader"));
+            errorAlert.setContentText(bundle.getString("invalidBoxContent"));
+            errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            errorAlert.showAndWait();
         }else {
+            Double price = Double.parseDouble(tfPrice.getText());
             apothecaryDAO.addDrug(nameBos, nameEng, nameLat,
                     purpose, content, localDate.toString(),
                     cmbAdministrationType.getSelectionModel().getSelectedIndex(), imageOfDrug,price, apothecary.getId());
@@ -160,25 +221,6 @@ public class DrugAddController {
         errorAlert.setContentText(bundle.getString("ent") + " " + string + " " + bundle.getString("errorMsgHard"));
         errorAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         errorAlert.showAndWait();
-    }
-    private boolean isStringCorrectHeavy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        Boolean charsAreAcceptable = true;
-
-        for (int i = 0; i < string.length(); i++) {
-            if (!((string.charAt(i)>='a' && string.charAt(i)<='z') ||
-                    (string.charAt(i)>='A' && string.charAt(i)<= 'Z'))){
-                charsAreAcceptable = false;
-            }
-        }
-        return charsAreAcceptable;
-    }
-
-    private boolean isStringCorrectEasy(String string){
-        if (string.length() < 3 || string.length()>24)
-            return false;
-        return true;
     }
 
     public void initData(Apothecary apothecary) {

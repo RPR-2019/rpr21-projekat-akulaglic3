@@ -4,7 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" ><!--fx:controller="ba.unsa.etf.rpr.Controllers.DrugEditController"-->
+    <stylesheets>
+        <URL value="@/css/text_field_custom.css" />
+    </stylesheets>
     <columnConstraints>
         <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
