@@ -4,6 +4,7 @@ import ba.unsa.etf.rpr.Enums.AdministrationTypes;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Drug {
@@ -162,7 +163,16 @@ public class Drug {
         if (this == o) return true;
         if (!(o instanceof Drug)) return false;
         Drug drug = (Drug) o;
-        return Objects.equals(nameBosnian, drug.nameBosnian) && Objects.equals(nameEnglish, drug.nameEnglish) && Objects.equals(nameLatin, drug.nameLatin) && Objects.equals(content, drug.content) && Objects.equals(purpose, drug.purpose) && Objects.equals(expirationDate, drug.expirationDate) && administrationTypes == drug.administrationTypes && Objects.equals(pictureUrl, drug.pictureUrl) && Objects.equals(price, drug.price) && Objects.equals(apothecary, drug.apothecary);
+        return Objects.equals(nameBosnian.get(), drug.nameBosnian.get())
+                && Objects.equals(nameEnglish.get(), drug.nameEnglish.get()) &&
+                Objects.equals(nameLatin.get(), drug.nameLatin.get()) &&
+                Objects.equals(content.get(), drug.content.get()) &&
+                Objects.equals(purpose.get(), drug.purpose.get()) &&
+                Objects.equals(expirationDate.get(), drug.expirationDate.get()) &&
+                administrationTypes == drug.administrationTypes &&
+                Arrays.equals(pictureUrl, drug.pictureUrl) &&
+                Objects.equals(price.get(), drug.price.get()) &&
+                Objects.equals(apothecary, drug.apothecary);
     }
 
     @Override

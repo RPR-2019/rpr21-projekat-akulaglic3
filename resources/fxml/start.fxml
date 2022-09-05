@@ -2,11 +2,12 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
 <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.StartController">
 
     <columnConstraints>
@@ -80,21 +81,22 @@
                      <accelerator>
                         <KeyCodeCombination alt="ANY" code="C" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem fx:id="menuExit" onAction="#actionExit" text="%exit">
                      <accelerator>
                         <KeyCodeCombination alt="ANY" code="X" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>
-          <Menu fx:id="menuVew" text="_View">
+          <Menu fx:id="menuView" text="_View">
                <items>
                   <Menu fx:id="menuLanguage" text="%language">
                     <items>
-                      <MenuItem onAction="#actionBosanski" text="Bosanski" />
-                        <MenuItem onAction="#actionEnglish" text="English">
+                        <MenuItem fx:id="menuEnglish" onAction="#actionEnglish" text="English">
                            <accelerator>
                               <KeyCodeCombination alt="ANY" code="E" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
+                      <MenuItem fx:id="menuBosanski" onAction="#actionBosanski" text="Bosanski" />
                     </items>
                      <accelerator>
                         <KeyCodeCombination alt="ANY" code="L" control="ANY" meta="UP" shift="UP" shortcut="UP" />
@@ -126,13 +128,14 @@
                      <accelerator>
                         <KeyCodeCombination alt="ANY" code="H" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem fx:id="menuAbout" onAction="#actionAbout" text="%about">
-                     <accelerator>
-                        <KeyCodeCombination alt="ANY" code="A" control="ANY" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator></MenuItem>
                   <MenuItem fx:id="menuKeyboard" mnemonicParsing="false" onAction="#actionKeyboardShortcuts" text="%keyboardShortcuts">
                      <accelerator>
                         <KeyCodeCombination alt="ANY" code="K" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+              <MenuItem fx:id="menuAbout" onAction="#actionAbout" text="%about">
+                     <accelerator>
+                        <KeyCodeCombination alt="ANY" code="A" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
                <accelerator>

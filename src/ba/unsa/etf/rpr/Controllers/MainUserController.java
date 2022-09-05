@@ -17,6 +17,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
@@ -102,6 +104,12 @@ public class MainUserController {
             btnRemoveDrug.setDisable(true);
         }
 
+
+        Image helpImage = new Image("/icons/question.png");
+        ImageView viewHelp = new ImageView(helpImage);
+        viewHelp.setFitHeight(10);
+        viewHelp.setPreserveRatio(true);
+        menuItemHelp.setGraphic(viewHelp);
     }
 
     public MainUserController(User user) throws SQLException {

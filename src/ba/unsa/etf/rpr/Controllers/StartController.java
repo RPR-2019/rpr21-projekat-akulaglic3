@@ -33,7 +33,7 @@ public class StartController {
     public Menu menuFile;
     public MenuItem menuCreateAcc;
     public MenuItem menuExit;
-    public Menu menuVew;
+    public Menu menuView;
     public Menu menuLanguage;
     public Menu menuTheme;
     public Menu menuHelp;
@@ -51,7 +51,19 @@ public class StartController {
 
     @FXML
     public void initialize(){
+
         idImage.setImage(new Image("\\images\\Logo.png"));
+        Image userImage = new Image("/icons/user.png");
+        ImageView viewUser = new ImageView(userImage);
+        viewUser.setFitHeight(10);
+        viewUser.setPreserveRatio(true);
+        menuCreateAcc.setGraphic(viewUser);
+
+        Image helpImage = new Image("/icons/question.png");
+        ImageView viewHelp = new ImageView(helpImage);
+        viewHelp.setFitHeight(10);
+        viewHelp.setPreserveRatio(true);
+        menuItemHelp.setGraphic(viewHelp);
     }
 
 

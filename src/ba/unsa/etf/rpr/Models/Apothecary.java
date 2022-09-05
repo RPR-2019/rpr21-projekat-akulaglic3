@@ -96,7 +96,11 @@ public class Apothecary {
         if (this == o) return true;
         if (!(o instanceof Apothecary)) return false;
         Apothecary that = (Apothecary) o;
-        return Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(contactPhone, that.contactPhone) && Objects.equals(email, that.email) && Objects.equals(totalProfit, that.totalProfit);
+        return Objects.equals(name.get(), that.name.get()) &&
+                Objects.equals(address.get(), that.address.get())
+                && Objects.equals(contactPhone.get(), that.contactPhone.get()) &&
+                Objects.equals(email.get(), that.email.get())
+                && Objects.equals(totalProfit.get(), that.totalProfit.get());
     }
 
     @Override

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+
 <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controllers.BuyMenuController">
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -32,7 +33,7 @@
    </columnConstraints>
    <children>
       <TextField fx:id="fldSearch" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionSearch" text="%search" GridPane.columnIndex="2" />
+      <Button fx:id="btnSearch" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#actionSearch" text="%search" GridPane.columnIndex="2" />
       <ListView fx:id="listSearchView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="6" />
       <Label text="%nameEng" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <Label text="%nameBos" GridPane.columnIndex="3" GridPane.rowIndex="2" />

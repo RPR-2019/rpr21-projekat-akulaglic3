@@ -41,6 +41,7 @@ public class BuyMenuController {
     public TextField fldAmount;
     public Button btnAddToCheckout;
     public Button btnClear;
+    public Button btnSearch;
     public TextField fldType;
 
     private User currentUser;
@@ -57,6 +58,14 @@ public class BuyMenuController {
         userDAO = UserDAO.getInstance();
         btnAddToCheckout.setDisable(true);
         btnClear.setDisable(true);
+
+        Image img = new Image("/icons/loupe.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(10);
+        view.setPreserveRatio(true);
+        btnSearch.setGraphic(view);
+
+
         fldAmount.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 fldAmount.setText(newValue.replaceAll("[^\\d]", ""));

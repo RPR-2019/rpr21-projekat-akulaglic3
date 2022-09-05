@@ -4,6 +4,7 @@ import ba.unsa.etf.rpr.Enums.Allergies;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private int id;
@@ -124,5 +125,25 @@ public class User {
 
     public void setAllergiesList(List<Allergies> allergiesList) {
         this.allergiesList = allergiesList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(name.get(), user.name.get()) &&
+                Objects.equals(surname.get(), user.surname.get()) &&
+                Objects.equals(username.get(), user.username.get()) &&
+                Objects.equals(eMail.get(), user.eMail.get()) &&
+                Objects.equals(password.get(), user.password.get()) &&
+                Objects.equals(doctorName.get(), user.doctorName.get()) &&
+                Objects.equals(doctorSurname.get(), user.doctorSurname.get())
+                && Objects.equals(allergiesList, user.allergiesList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, username, eMail, password, doctorName, doctorSurname, allergiesList);
     }
 }

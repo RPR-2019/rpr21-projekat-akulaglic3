@@ -61,7 +61,7 @@ public class Item {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        return Objects.equals(drug, item.drug) && Objects.equals(amount, item.amount);
+        return Objects.equals(drug, item.drug) && Objects.equals(amount.get(), item.amount.get());
     }
 
     @Override
@@ -72,6 +72,6 @@ public class Item {
     @Override
     public String toString() {
         return drug.getNameEnglish() + ", " + drug.getNameLatin() + "/ Price = " + drug.getPrice() +
-                ", Amount =" + amount.get() + ", Total = " + (amount.get()*drug.getPrice());
+                ", Amount = " + amount.get() + ", Total = " + (amount.get()*drug.getPrice());
     }
 }

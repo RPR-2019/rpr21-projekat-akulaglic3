@@ -14,6 +14,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -106,6 +108,13 @@ public class MainApothecaryController {
                 fldNameLatin.textProperty().bindBidirectional(newDrug.nameLatinProperty());
             }
         });
+
+
+        Image helpImage = new Image("/icons/question.png");
+        ImageView viewHelp = new ImageView(helpImage);
+        viewHelp.setFitHeight(10);
+        viewHelp.setPreserveRatio(true);
+        menuItemHelp.setGraphic(viewHelp);
     }
 
 
