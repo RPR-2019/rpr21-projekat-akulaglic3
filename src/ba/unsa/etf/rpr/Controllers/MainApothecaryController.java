@@ -195,9 +195,9 @@ public class MainApothecaryController {
     public void actionHelp(ActionEvent actionEvent) {
         File file = null;
         if (Locale.getDefault().equals(new Locale("bs", "BA"))){
-            file = new File("resources/pdf/Help Guide - English.pdf");
-        }else{
             file = new File("resources/pdf/Help Guide - Bosanski.pdf");
+        }else{
+            file = new File("resources/pdf/Help Guide - English.pdf");
         }
 
         try {

@@ -17,9 +17,9 @@
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <children>
-      <Button mnemonicParsing="false" onAction="#actionRegisterPersonal" text="%userAcc" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Button mnemonicParsing="false" onAction="#actionRegisterApothecary" text="%apotAcc" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Button cancelButton="true" mnemonicParsing="false" onAction="#actionBack" text="%back" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnUser" mnemonicParsing="false" onAction="#actionRegisterPersonal" text="%userAcc" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Button fx:id="btnApothecary" mnemonicParsing="false" onAction="#actionRegisterApothecary" text="%apotAcc" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Button fx:id="btnBack" cancelButton="true" mnemonicParsing="false" onAction="#actionBack" text="%back" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <padding>
             <Insets bottom="5.0" left="19.0" right="19.0" top="5.0" />
          </padding>

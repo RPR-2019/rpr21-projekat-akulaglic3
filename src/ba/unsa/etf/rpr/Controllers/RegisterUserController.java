@@ -133,6 +133,8 @@ public class RegisterUserController {
             alertIncorrectHeavy(bundle.getString("surnameRU"));
         }else if (!validator.isStringCorrectEasy(username)){
             alertIncorrectEasy(bundle.getString("usernameRU"));
+        }else if (!validator.isStringCorrectEasy(fldEmail.getText())){
+            alertIncorrectEasy(bundle.getString("emailRU"));
         }else if (!validator.isStringCorrectEasy(password)){
             alertIncorrectEasy(bundle.getString("passwordRU"));
         }else if (!validator.isStringCorrectHeavy(doctorName)){

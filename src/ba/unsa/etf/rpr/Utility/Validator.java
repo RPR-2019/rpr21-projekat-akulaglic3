@@ -42,6 +42,8 @@ public class Validator {
     }
 
     public boolean isPhoneCorrect(String string) {
+        if (string.length() < 3 || string.length()>24)
+            return false;
         for (int i = 0; i < string.length(); i++) {
             if (!(string.charAt(i)=='+' || string.charAt(i)=='/' ||
             (string.charAt(i)>='0' && string.charAt(i)<= '9'))){

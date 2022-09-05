@@ -140,6 +140,8 @@ public class EditAccountUserController {
             alertIncorrectHeavy(bundle.getString("doctor_nameRU"));
         }else if (!validator.isStringCorrectHeavy(doctorSurname)){
             alertIncorrectHeavy(bundle.getString("doctor_surnameRU"));
+        }else if (!validator.isStringCorrectEasy(fldEmail.getText())){
+            alertIncorrectEasy(bundle.getString("emailRU"));
         }else {
             List<Allergies> allergies = new ArrayList<>();
             if (cbAspirin.isSelected()){

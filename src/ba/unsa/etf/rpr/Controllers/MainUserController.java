@@ -190,6 +190,9 @@ public class MainUserController {
         listItems.setItems(checkoutItems);
         listItems.refresh();
 
+        if (checkoutItems.size()==0){
+            btnCheckout.setDisable(true);
+        }
 
         Double totalAmount = Double.valueOf(0);
         for (Item item: checkoutItems) {
@@ -295,9 +298,9 @@ public class MainUserController {
     public void actionHelp(ActionEvent actionEvent) {
         File file = null;
         if (Locale.getDefault().equals(new Locale("bs", "BA"))){
-            file = new File("resources/pdf/Help Guide - English.pdf");
-        }else{
             file = new File("resources/pdf/Help Guide - Bosanski.pdf");
+        }else{
+            file = new File("resources/pdf/Help Guide - English.pdf");
         }
 
         try {
