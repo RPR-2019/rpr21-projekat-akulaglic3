@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.DAO;
 
+import ba.unsa.etf.rpr.Enums.Allergies;
+import ba.unsa.etf.rpr.Exceptions.IllegalAllergyType;
 import ba.unsa.etf.rpr.Models.Drug;
 import ba.unsa.etf.rpr.Models.Item;
 import ba.unsa.etf.rpr.Models.User;
@@ -17,7 +19,7 @@ public class UserDAO {
     private static UserDAO instance;
     private Connection connection;
     private PreparedStatement testStatementQuery, getUserByUsernameAndPasswordQuery,
-            getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser,updateUserQuery;
+            getUserByUsernameQuery, insertNewUserQuery, insertAllergyForUser, getIdForNewUser,updateUserQuery, getAllergiesForUser;
 
     private PreparedStatement getCheckoutItemsForUserQuery, addItemQuery, deleteItemQuery;
 
@@ -36,6 +38,7 @@ public class UserDAO {
                 connection.prepareStatement("Select * from User Where username = ? and password = ?");
         getUserByUsernameQuery =
                 connection.prepareStatement("Select * from User Where username = ?");
+        getAllergiesForUser= connection.prepareStatement("Select * from Allergies WHERE user_id=?");
 
 
         insertNewUserQuery =
@@ -202,12 +205,30 @@ public class UserDAO {
             }
 
             if (listOfUsers.size()==1){
+                ArrayList<Allergies> allergiesArrayList = getAllergiesForUser(listOfUsers.get(0).getId());
+                listOfUsers.get(0).setAllergiesList(allergiesArrayList);
                 return listOfUsers.get(0);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private ArrayList<Allergies> getAllergiesForUser(int id) {
+        ArrayList<ba.unsa.etf.rpr.Enums.Allergies> allergies = new ArrayList<>();
+        try {
+            getAllergiesForUser.setInt(1, id);
+            ResultSet resultSet = getAllergiesForUser.executeQuery();
+
+            while (resultSet.next()){
+                allergies.add(ba.unsa.etf.rpr.Enums.Allergies.valueOf(resultSet.getInt(3)));
+            }
+        } catch (SQLException | IllegalAllergyType e) {
+            e.printStackTrace();
+        }
+
+        return allergies;
     }
 
     public void removeItem(Item selectedItem) {
